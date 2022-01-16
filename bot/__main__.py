@@ -1,18 +1,20 @@
 import signal
 import os
+import pytz
 
 from os import path as ospath, remove as osremove, execl as osexecl
 from subprocess import run as srun
 from asyncio import run as asyrun
 from psutil import disk_usage, cpu_percent, swap_memory, cpu_count, virtual_memory, net_io_counters, Process as psprocess
 from time import time
+from datetime import datetime
 from pyrogram import idle
 from sys import executable
 from telegram import ParseMode, InlineKeyboardMarkup
 from telegram.ext import CommandHandler
 
 from wserver import start_server_async
-from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, IS_VPS, PORT, alive, web, OWNER_ID, AUTHORIZED_CHATS, LOGGER, Interval, nox, rss_session
+from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, IS_VPS, PORT, alive, web, OWNER_ID, AUTHORIZED_CHATS, LOGGER, Interval, nox, rss_session, TIMEZONE
 from .helper.ext_utils.fs_utils import start_cleanup, clean_all, exit_clean_up
 from .helper.telegram_helper.bot_commands import BotCommands
 from .helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile
@@ -20,8 +22,9 @@ from .helper.ext_utils.telegraph_helper import telegraph
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
 from .helper.telegram_helper.filters import CustomFilters
 from .helper.telegram_helper.button_build import ButtonMaker
-from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, delete, speedtest, count, leech_settings, search, rss
+from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, delete, speedtest, count, leech_settings, search, rss, usage
 
+now = datetime.now(pytz.timezone(f'{TIMEZONE}'))
 
 def stats(update, context):
     currentTime = get_readable_time(time() - botStartTime)
@@ -254,7 +257,9 @@ def main():
         osremove(".restartmsg")
     elif OWNER_ID:
         try:
-            text = "<b>Bot Restarted!</b>"
+            kie = datetime.now(pytz.timezone(f'{TIMEZONE}'))
+            jam = kie.strftime('\n📅 𝗗𝗮𝘁𝗲: %d/%m/%Y\n⏲️ 𝗧𝗶𝗺𝗲: %I:%M%P')
+            text = f"𝘌𝘷𝘦𝘳𝘺 𝘦𝘯𝘥𝘴 𝘪𝘴 𝘢 𝘕𝘦𝘸 𝘣𝘦𝘨𝘪𝘯𝘯𝘪𝘯𝘨/n/n⚡️ 𝐁𝐎𝐓 𝐑𝐄𝐒𝐓𝐀𝐑𝐓𝐄𝐃 ⚡️\n{jam}\n\n🗺️ 𝗧𝗶𝗺𝗲 𝗭𝗼𝗻𝗲\n{TIMEZONE}\n\n𝙿𝙻𝙴𝙰𝚂𝙴 𝚁𝙴-𝙳𝙾𝚆𝙽𝙻𝙾𝙰𝙳 𝙰𝙶𝙰𝙸𝙽\n\n#Restarted"
             bot.sendMessage(chat_id=OWNER_ID, text=text, parse_mode=ParseMode.HTML)
             if AUTHORIZED_CHATS:
                 for i in AUTHORIZED_CHATS:
