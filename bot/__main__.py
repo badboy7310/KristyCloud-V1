@@ -70,7 +70,6 @@ def start(update, context):
 '''
         sendMarkup(start_string, context.bot, update)
     else:
-        msg = 
         sendMarkup('Hey👋,\n𝗧𝗵𝗮𝗻𝗸 𝗬𝗼𝘂 𝗙𝗼𝗿 𝗦𝘂𝗯𝘀𝗰𝗿𝗶𝗯𝗶𝗻𝗴 𝗺𝗲.\n#BaashaXclouD', context.bot, update)
 
 def restart(update, context):
