@@ -163,15 +163,14 @@ def get_readable_message():
                            f" | 𝗟𝗲𝗲𝗰𝗵𝗲𝗿𝘀: {download.torrent_info().num_leechs}"
                 except:
                     pass
-                msg += f"\n<b>𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹 :</b><code>/{BotCommands.CancelMirror} {download.gid()}</code>\n═════════════════════"
-                msg += "\n\n"
+                msg += f"\n<b>𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹 :</b><code>/{BotCommands.CancelMirror} {download.gid()}</code>\n___________________________"
             elif download.status() == MirrorStatus.STATUS_SEEDING:
                 msg += f"\n𝗦𝗶𝘇𝗲: {download.size()}"
                 msg += f"\n𝗦𝗽𝗲𝗲𝗱: {get_readable_file_size(download.torrent_info().upspeed)}/s"
                 msg += f" | 𝗨𝗽𝗹𝗼𝗮𝗱𝗲𝗱: {get_readable_file_size(download.torrent_info().uploaded)}"
                 msg += f"\n𝗥𝗮𝘁𝗶𝗼: {round(download.torrent_info().ratio, 3)}"
                 msg += f" | 𝗧𝗶𝗺𝗲: {get_readable_time(download.torrent_info().seeding_time)}"
-                msg += f"\n<b>𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹 :</b><code>/{BotCommands.CancelMirror} {download.gid()}</code>\n═════════════════════"
+                msg += f"\n<b>𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹 :</b><code>/{BotCommands.CancelMirror} {download.gid()}</code>\n___________________________"
             else:
                 msg += f"\n𝗦𝗶𝘇𝗲: {download.size()}"
             msg += "\n\n"
@@ -198,7 +197,7 @@ def get_readable_message():
         bmsg += f"\n𝗥𝗔𝗠: {virtual_memory().percent}% | 𝗨𝗣𝗧𝗜𝗠𝗘: {currentTime}"
         bmsg += f"\n𝗗𝗟: {dlspeed}/s | 𝗨𝗟: {ulspeed}/s"
         if STATUS_LIMIT is not None and tasks > STATUS_LIMIT:
-            msg += f"<📖 𝗣𝗮𝗴𝗲𝘀: {PAGE_NO}/{pages} | 📝 𝗧𝗮𝘀𝗸𝘀: {tasks}\n"
+            msg += f"📖 𝗣𝗮𝗴𝗲𝘀: {PAGE_NO}/{pages} | 📝 𝗧𝗮𝘀𝗸𝘀: {tasks}\n"
             buttons = ButtonMaker()
             buttons.sbutton("⬅️", "status pre")
             buttons.sbutton("➡️", "status nex")
