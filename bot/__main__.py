@@ -65,11 +65,11 @@ def stats(update, context):
 
 def start(update, context):
     buttons = ButtonMaker()
-    buttons.buildbutton("𝗕𝗮𝗮𝘀𝗵𝗮 𝗫 𝗖𝗹𝗼𝘂𝗱", "hhttps://t.me/BaashaXclouD")
+    buttons.buildbutton("𝗕𝗮𝗮𝘀𝗵𝗮 𝗫 𝗖𝗹𝗼𝘂𝗱", "https://t.me/BaashaXclouD")
     reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         start_string = f'''
-𝗕𝗼𝗧{BOT_NO} 𝗶𝘀 𝗢𝗻𝗹𝗶𝗻𝗲💯.
+BoT{BOT_NO} is Online💯.
 '''
         sendMessage(start_string, bot, update)
     else:
