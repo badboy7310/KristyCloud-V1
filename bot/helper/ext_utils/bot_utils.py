@@ -126,7 +126,7 @@ def get_readable_message():
             START = COUNT
         for index, download in enumerate(list(download_dict.values())[START:], start=1):
             reply_to = download.message.reply_to_message
-            msg += f"<b>▬▬▬▬▬  @MSPbots ▬▬▬▬▬\n\n𝗙𝗶𝗹𝗲𝗻𝗮𝗺𝗲 :</b><code>{download.name()}</code>"
+            msg += f"<b>▬▬▬▬▬  @MSPbots ▬▬▬▬▬</b>\n\n𝗙𝗶𝗹𝗲𝗻𝗮𝗺𝗲: <code>{download.name()}</code>"
             msg += f"\n𝗦𝘁𝗮𝘁𝘂𝘀: <i>{download.status()}</i>"
             if download.status() not in [
                 MirrorStatus.STATUS_ARCHIVING,
@@ -143,43 +143,43 @@ def get_readable_message():
                     msg += f"\n𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱𝗲𝗱: {get_readable_file_size(download.processed_bytes())} of {download.size()}"
                 msg += f"\n𝗦𝗽𝗲𝗲𝗱: {download.speed()} | 𝗘𝗧𝗔: {download.eta()}"
                 if reply_to:
-                    msg += f"\n<b>𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝘆 : <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name}</a></b>"
+                    msg += f"\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name}</a>"
                 else:
-                    msg += f"\n<b>𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝘆 : <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name}</a></b>"
+                    msg += f"\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name}</a>"
                 # if hasattr(download, 'is_torrent'):
                 try:
-                    msg += f"\n<b>𝗨𝗦𝗘𝗥 𝗜𝗗 :</b><code>/warn {download.message.from_user.id}</code>"
+                    msg += f"\n𝗨𝗦𝗘𝗥 𝗜𝗗:<code>/warn {download.message.from_user.id}</code>"
                 except:
                     pass
                 try:
-                    msg += f"\n𝗘𝗻𝗴𝗶𝗻𝗲: Aria2" \
+                    msg += f"\n𝗘𝗻𝗴𝗶𝗻𝗲: <i>Aria2📶</i>" \
                            f"\n𝗦𝗲𝗲𝗱𝗲𝗿𝘀: {download.aria_download().num_seeders}" \
                            f" | 𝗣𝗲𝗲𝗿𝘀: {download.aria_download().connections}"
                 except:
                     pass
                 try:
-                    msg += f"\n𝗘𝗻𝗴𝗶𝗻𝗲: qbit" \
+                    msg += f"\n𝗘𝗻𝗴𝗶𝗻𝗲: <i>qbit🦠</i>" \
                            f"\n𝗦𝗲𝗲𝗱𝗲𝗿𝘀: {download.torrent_info().num_seeds}" \
                            f" | 𝗟𝗲𝗲𝗰𝗵𝗲𝗿𝘀: {download.torrent_info().num_leechs}"
                 except:
                     pass
                 msg += f"\n<code>/{BotCommands.CancelMirror} {download.gid()}</code>"
             elif download.status() == MirrorStatus.STATUS_SEEDING:
-                msg += f"\n<b>𝗦𝗶𝘇𝗲: </b>{download.size()}"
-                msg += f"\n<b>𝗦𝗽𝗲𝗲𝗱: </b>{get_readable_file_size(download.torrent_info().upspeed)}/s"
-                msg += f" | <b>𝗨𝗽𝗹𝗼𝗮𝗱𝗲𝗱: </b>{get_readable_file_size(download.torrent_info().uploaded)}"
-                msg += f"\n<b>𝗥𝗮𝘁𝗶𝗼: </b>{round(download.torrent_info().ratio, 3)}"
-                msg += f" | <b>𝗧𝗶𝗺𝗲: </b>{get_readable_time(download.torrent_info().seeding_time)}"
+                msg += f"\n𝗦𝗶𝘇𝗲: {download.size()}"
+                msg += f"\n𝗦𝗽𝗲𝗲𝗱: {get_readable_file_size(download.torrent_info().upspeed)}/s"
+                msg += f" | 𝗨𝗽𝗹𝗼𝗮𝗱𝗲𝗱: {get_readable_file_size(download.torrent_info().uploaded)}"
+                msg += f"\n𝗥𝗮𝘁𝗶𝗼: {round(download.torrent_info().ratio, 3)}"
+                msg += f" | 𝗧𝗶𝗺𝗲: {get_readable_time(download.torrent_info().seeding_time)}"
                 msg += f"\n<code>/{BotCommands.CancelMirror} {download.gid()}</code>"
             else:
-                msg += f"\n<b>𝗦𝗶𝘇𝗲: </b>{download.size()}"
+                msg += f"\n𝗦𝗶𝘇𝗲: {download.size()}"
             msg += "\n\n"
             if STATUS_LIMIT is not None and index == STATUS_LIMIT:
                 break
         total, used, free, _ = disk_usage('.')
         free = get_readable_file_size(free)
         currentTime = get_readable_time(time() - botStartTime)
-        bmsg = f"<b>CPU:</b> {cpu_percent()}% | <b>FREE:</b> {free}"
+        bmsg = f"𝗖𝗣𝗨: {cpu_percent()}% | 𝗙𝗥𝗘𝗘: {free}"
         for download in list(download_dict.values()):
             speedy = download.speed()
             if download.status() == MirrorStatus.STATUS_DOWNLOADING:
