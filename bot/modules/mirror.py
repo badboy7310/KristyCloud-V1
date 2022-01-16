@@ -211,14 +211,14 @@ class MirrorListener:
             count = len(files)
             msg = f'𝗡𝗮𝗺𝗲: <code>{link}</code>\n\n'
             msg += f'𝗦𝗶𝘇𝗲: {get_readable_file_size(size)}\n'
-            msg += f'𝗧𝗼𝘁𝗮𝗹 𝗙𝗶𝗹𝗲𝘀: </b>{count}'
+            msg += f'𝗧𝗼𝘁𝗮𝗹 𝗙𝗶𝗹𝗲𝘀: {count}'
             if typ != 0:
                 msg += f'\n𝗖𝗼𝗿𝗿𝘂𝗽𝘁𝗲𝗱 𝗙𝗶𝗹𝗲𝘀: {typ}'
             if self.message.chat.type == 'private':
                 sendMessage(msg, self.bot, self.update)
             else:
                 chat_id = str(self.message.chat.id)[4:]
-                msg += f'\n<b>𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: </b>{self.tag}\n\n'
+                msg += f'\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: {self.tag}\n\n'
                 fmsg = ''
                 for index, item in enumerate(list(files), start=1):
                     msg_id = files[item]
@@ -235,7 +235,7 @@ class MirrorListener:
 
         with download_dict_lock:
             msg = f'𝗡𝗮𝗺𝗲: <code>{download_dict[self.uid].name()}</code>\n\n𝗦𝗶𝘇𝗲: {size}'
-            msg += f'\n\n<b>𝗧𝘆𝗽𝗲: </b>{typ}'
+            msg += f'\n\n𝗧𝘆𝗽𝗲: {typ}'
             if ospath.isdir(f'{DOWNLOAD_DIR}/{self.uid}/{download_dict[self.uid].name()}'):
                 msg += f'\n𝗦𝘂𝗯𝗙𝗼𝗹𝗱𝗲𝗿𝘀: {folders}'
                 msg += f'\n𝗙𝗶𝗹𝗲𝘀: {files}'
