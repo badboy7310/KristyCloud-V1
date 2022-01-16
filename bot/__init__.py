@@ -152,6 +152,7 @@ try:
     AUTO_DELETE_MESSAGE_DURATION = int(getConfig('AUTO_DELETE_MESSAGE_DURATION'))
     TELEGRAM_API = getConfig('TELEGRAM_API')
     TELEGRAM_HASH = getConfig('TELEGRAM_HASH')
+    LOG_CHANNEL_LINK = getConfig('LOG_CHANNEL_LINK')
 except KeyError as e:
     LOGGER.error("One or more env variables missing! Exiting now")
     exit(1)
@@ -415,6 +416,80 @@ try:
 except KeyError:
     PHPSESSID = None
     CRYPT = None
+    
+try:
+    GD_INFO = getConfig('GD_INFO')
+    if len(GD_INFO) == 0:
+        GD_INFO = 'Uploaded by MSP Mirror Bot'
+except KeyError:
+    GD_INFO = 'Uploaded by MSP Mirror Bot'
+
+try:
+    TITLE_NAME = getConfig('TITLE_NAME')
+    if len(TITLE_NAME) == 0:
+        TITLE_NAME = 'MSP-Mirror-Search'
+except KeyError:
+    TITLE_NAME = 'MSP-Mirror-Search'
+
+try:
+    AUTHOR_NAME = getConfig('AUTHOR_NAME')
+    if len(AUTHOR_NAME) == 0:
+        AUTHOR_NAME = 'MSP-Mirror-Bot'
+except KeyError:
+    AUTHOR_NAME = 'MSP-Mirror-Bot'
+
+try:
+    AUTHOR_URL = getConfig('AUTHOR_URL')
+    if len(AUTHOR_URL) == 0:
+        AUTHOR_URL = 'https://t.me/MSPbots'
+except KeyError:
+    AUTHOR_URL = 'https://t.me/MSPbots'
+
+try:
+    HEROKU_APP_NAME = getConfig('HEROKU_APP_NAME')
+    if len(HEROKU_APP_NAME) == 0:
+        raise KeyError
+except KeyError:
+    logging.warning('HEROKU_APP_NAME not provided!')
+    HEROKU_APP_NAME = None
+
+try:
+    HEROKU_API_KEY = getConfig('HEROKU_API_KEY')
+    if len(HEROKU_API_KEY) == 0:
+        raise KeyError
+except KeyError:
+    logging.warning('HEROKU_API_KEY not provided!')
+    HEROKU_API_KEY = None
+
+try:
+    LOG_CHANNEL = int(getConfig('LOG_CHANNEL'))
+    if int(LOG_CHANNEL) == 0:
+        raise KeyError
+except KeyError:
+    logging.warning('LOG_CHANNEL not provided!')
+    LOG_CHANNEL = None
+    
+try:
+    TIMEZONE = getConfig('TIMEZONE')
+    if len(TIMEZONE) == 0:
+        TIMEZONE = None
+except KeyError:
+    TIMEZONE = 'Asia/Kolkata'
+    
+try:
+    BOT_NO = getConfig('BOT_NO')
+    if len(BOT_NO) == 0:
+        BOT_NO = None
+except KeyError:
+    BOT_NO = '0'
+
+try:
+    CHANNEL_USERNAME = getConfig('CHANNEL_USERNAME')
+    if len(CHANNEL_USERNAME) == 0:
+        raise KeyError
+except KeyError:
+    logging.warning('CHANNEL_USERNAME not provided!')
+    CHANNEL_USERNAME = None
 try:
     TOKEN_PICKLE_URL = getConfig('TOKEN_PICKLE_URL')
     if len(TOKEN_PICKLE_URL) == 0:
