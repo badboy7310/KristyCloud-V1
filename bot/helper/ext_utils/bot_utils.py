@@ -164,7 +164,7 @@ def get_readable_message():
                 except:
                     pass
                 msg += f"\n<b>𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹 :</b><code>/{BotCommands.CancelMirror} {download.gid()}</code>\n═════════════════════"
-            msg += "\n\n"
+                msg += "\n\n"
             elif download.status() == MirrorStatus.STATUS_SEEDING:
                 msg += f"\n𝗦𝗶𝘇𝗲: {download.size()}"
                 msg += f"\n𝗦𝗽𝗲𝗲𝗱: {get_readable_file_size(download.torrent_info().upspeed)}/s"
