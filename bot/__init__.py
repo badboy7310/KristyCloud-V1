@@ -470,6 +470,14 @@ except KeyError:
     LOG_CHANNEL = None
     
 try:
+    LOG_LEECH = int(getConfig('LOG_LEECH'))
+    if int(LOG_LEECH) == 0:
+        raise KeyError
+except KeyError:
+    logging.warning('LOG_LEECH not provided!')
+    LOG_LEECH = None
+    
+try:
     TIMEZONE = getConfig('TIMEZONE')
     if len(TIMEZONE) == 0:
         TIMEZONE = None
