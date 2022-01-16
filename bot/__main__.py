@@ -14,7 +14,7 @@ from telegram import ParseMode, InlineKeyboardMarkup
 from telegram.ext import CommandHandler
 
 from wserver import start_server_async
-from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, IS_VPS, PORT, alive, web, OWNER_ID, AUTHORIZED_CHATS, LOGGER, Interval, nox, rss_session, TIMEZONE
+from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, IS_VPS, PORT, alive, web, OWNER_ID, AUTHORIZED_CHATS, LOGGER, Interval, nox, rss_session, TIMEZONE, BOT_NO
 from .helper.ext_utils.fs_utils import start_cleanup, clean_all, exit_clean_up
 from .helper.telegram_helper.bot_commands import BotCommands
 from .helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile
@@ -66,7 +66,7 @@ def stats(update, context):
 def start(update, context):
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         start_string = f'''
-𝗕𝗼𝗧 𝗶𝘀 𝗢𝗻𝗹𝗶𝗻𝗲💯.
+𝗕𝗼𝗧{BOT_NO} 𝗶𝘀 𝗢𝗻𝗹𝗶𝗻𝗲💯.
 '''
         sendMarkup(start_string, context.bot, update)
     else:
@@ -171,7 +171,7 @@ help_string_telegraph = f'''<br>
 '''
 
 help = telegraph.create_page(
-        title='Mirror-Leech-Bot Help',
+        title='Baasha X Help',
         content=help_string_telegraph,
     )["path"]
 
@@ -254,7 +254,7 @@ def main():
         try:
             kie = datetime.now(pytz.timezone(f'{TIMEZONE}'))
             jam = kie.strftime('\n📅 𝗗𝗮𝘁𝗲: %d/%m/%Y\n⏲️ 𝗧𝗶𝗺𝗲: %I:%M%P')
-            text = f"𝘌𝘷𝘦𝘳𝘺 𝘦𝘯𝘥𝘴 𝘪𝘴 𝘢 𝘕𝘦𝘸 𝘣𝘦𝘨𝘪𝘯𝘯𝘪𝘯𝘨\n\n⚡️ 𝐁𝐎𝐓 𝐑𝐄𝐒𝐓𝐀𝐑𝐓𝐄𝐃 ⚡️\n{jam}\n\n🗺️ 𝗧𝗶𝗺𝗲 𝗭𝗼𝗻𝗲\n{TIMEZONE}\n\n𝙿𝙻𝙴𝙰𝚂𝙴 𝚁𝙴-𝙳𝙾𝚆𝙽𝙻𝙾𝙰𝙳 𝙰𝙶𝙰𝙸𝙽"
+            text = f"𝘌𝘷𝘦𝘳𝘺 𝘦𝘯𝘥𝘴 𝘪𝘴 𝘢 𝘕𝘦𝘸 𝘣𝘦𝘨𝘪𝘯𝘯𝘪𝘯𝘨\n\n⚡️ 𝐁𝐎𝐓{BOT_NO} 𝐑𝐄𝐒𝐓𝐀𝐑𝐓𝐄𝐃 ⚡️\n{jam}\n\n🗺️ 𝗧𝗶𝗺𝗲 𝗭𝗼𝗻𝗲\n{TIMEZONE}\n\n𝙿𝙻𝙴𝙰𝚂𝙴 𝚁𝙴-𝙳𝙾𝚆𝙽𝙻𝙾𝙰𝙳 𝙰𝙶𝙰𝙸𝙽"
             bot.sendMessage(chat_id=OWNER_ID, text=text, parse_mode=ParseMode.HTML)
             if AUTHORIZED_CHATS:
                 for i in AUTHORIZED_CHATS:
