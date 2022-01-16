@@ -69,11 +69,11 @@ def start(update, context):
     reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         start_string = f'''
-BoT{BOT_NO} is Online💯.
+Bot{BOT_NO} is Online💯.
 '''
         sendMessage(start_string, bot, update)
     else:
-        sendMarkup('Hey👋,\n𝗧𝗵𝗮𝗻𝗸 𝗬𝗼𝘂 𝗙𝗼𝗿 𝗦𝘂𝗯𝘀𝗰𝗿𝗶𝗯𝗶𝗻𝗴 𝗺𝗲.\n#BaashaXclouD', context.bot, update, reply_markup)
+        sendMarkup('Hey👋,\n\n𝗧𝗵𝗮𝗻𝗸 𝗬𝗼𝘂 𝗙𝗼𝗿 𝗦𝘂𝗯𝘀𝗰𝗿𝗶𝗯𝗶𝗻𝗴 𝗺𝗲.\n\n#BaashaXclouD', context.bot, update, reply_markup)
 
 def restart(update, context):
     restart_message = sendMessage("Restarting...", context.bot, update)
