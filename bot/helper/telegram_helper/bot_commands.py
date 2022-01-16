@@ -42,7 +42,7 @@ class _BotCommands:
         self.DeleteCommand = getCommand('DELETE_BOT', f'del{BOT_NO}')
         self.ShellCommand = getCommand('SHELL_BOT', f'shell{BOT_NO}')
         self.ExecHelpCommand = getCommand('EXEHELP_BOT', f'exehelp{BOT_NO}')
-        self.LeechSetCommand = getCommand('LEECH_SET', f'settings{BOT_NO}')
+        self.LeechSetCommand = getCommand('LEECH_SET', f'leechset{BOT_NO}')
         self.SetThumbCommand = getCommand('SET_THUMB', f'setthumb{BOT_NO}')
         self.LeechCommand = getCommand('LEECH_BOT', f'leech{BOT_NO}')
         self.UnzipLeechCommand = getCommand('UNZIP_LEECH', f'unzipleech{BOT_NO}')
