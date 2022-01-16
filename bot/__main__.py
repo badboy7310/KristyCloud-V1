@@ -64,13 +64,16 @@ def stats(update, context):
 
 
 def start(update, context):
+    buttons = button_build.ButtonMaker()
+    buttons.buildbutton("𝗕𝗮𝗮𝘀𝗵𝗮 𝗫 𝗖𝗹𝗼𝘂𝗱", "hhttps://t.me/BaashaXclouD")
+    reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         start_string = f'''
 𝗕𝗼𝗧{BOT_NO} 𝗶𝘀 𝗢𝗻𝗹𝗶𝗻𝗲💯.
 '''
-        sendMarkup(start_string, context.bot, update)
+        sendMessage(start_string, bot, update)
     else:
-        sendMarkup('Hey👋,\n𝗧𝗵𝗮𝗻𝗸 𝗬𝗼𝘂 𝗙𝗼𝗿 𝗦𝘂𝗯𝘀𝗰𝗿𝗶𝗯𝗶𝗻𝗴 𝗺𝗲.\n#BaashaXclouD', context.bot, update)
+        sendMarkup('Hey👋,\n𝗧𝗵𝗮𝗻𝗸 𝗬𝗼𝘂 𝗙𝗼𝗿 𝗦𝘂𝗯𝘀𝗰𝗿𝗶𝗯𝗶𝗻𝗴 𝗺𝗲.\n#BaashaXclouD', context.bot, update, reply_markup)
 
 def restart(update, context):
     restart_message = sendMessage("Restarting...", context.bot, update)
