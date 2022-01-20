@@ -73,7 +73,6 @@ class TgUploader:
             up_path = new_path
         else:
             cap_mono = f"<code>{file_}</code>"
-            logc = f"{file_}"
         notMedia = False
         thumb = self.__thumb
         try:
@@ -109,7 +108,7 @@ class TgUploader:
                                                               disable_notification=True,
                                                               progress=self.__upload_progress)
                     try:
-                        app.send_video(LOG_LEECH, video=self.__sent_msg.video.file_id, caption=logc)
+                        app.send_video(LOG_LEECH, video=self.__sent_msg.video.file_id, caption=cap_mono)
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
                 elif file_.upper().endswith(AUDIO_SUFFIXES):
@@ -125,7 +124,7 @@ class TgUploader:
                                                               disable_notification=True,
                                                               progress=self.__upload_progress)
                     try:
-                        app.send_audio(LOG_LEECH, audio=self.__sent_msg.audio.file_id, caption=logc)
+                        app.send_audio(LOG_LEECH, audio=self.__sent_msg.audio.file_id, caption=cap_mono)
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
                 elif file_.upper().endswith(IMAGE_SUFFIXES):
@@ -136,7 +135,7 @@ class TgUploader:
                                                               disable_notification=True,
                                                               progress=self.__upload_progress)
                     try:
-                        app.send_photo(LOG_LEECH, photo=self.__sent_msg.photo.file_id, caption=logc)
+                        app.send_photo(LOG_LEECH, photo=self.__sent_msg.photo.file_id, caption=cap_mono)
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
                 else:
@@ -156,7 +155,7 @@ class TgUploader:
                                                              disable_notification=True,
                                                              progress=self.__upload_progress)
                 try:
-                    app.send_document(LOG_LEECH, document=self.__sent_msg.document.file_id, caption=logc)
+                    app.send_document(LOG_LEECH, document=self.__sent_msg.document.file_id, caption=cap_mono)
                 except Exception as err:
                     LOGGER.error(f"Failed to log to channel:\n{err}")
         except FloodWait as f:
