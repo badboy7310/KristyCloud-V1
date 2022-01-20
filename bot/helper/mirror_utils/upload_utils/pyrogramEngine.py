@@ -6,7 +6,7 @@ from pyrogram.errors import FloodWait, RPCError
 from PIL import Image
 from threading import RLock
 
-from bot import app, DOWNLOAD_DIR, AS_DOCUMENT, AS_DOC_USERS, AS_MEDIA_USERS, CUSTOM_FILENAME, LOG_LEECH, bot
+from bot import app, DOWNLOAD_DIR, AS_DOCUMENT, AS_DOC_USERS, AS_MEDIA_USERS, CUSTOM_FILENAME, LOG_LEECH
 from bot.helper.ext_utils.fs_utils import take_ss, get_media_info, get_video_resolution, get_path_size
 
 LOGGER = logging.getLogger(__name__)
@@ -109,7 +109,7 @@ class TgUploader:
                                                               disable_notification=True,
                                                               progress=self.__upload_progress)
                     try:
-                        bot.send_video(LOG_LEECH, video=self.__sent_msg.video.file_id, caption=logc)
+                        app.send_video(LOG_LEECH, video=self.__sent_msg.video.file_id, caption=logc)
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
                 elif file_.upper().endswith(AUDIO_SUFFIXES):
@@ -125,7 +125,7 @@ class TgUploader:
                                                               disable_notification=True,
                                                               progress=self.__upload_progress)
                     try:
-                        bot.send_audio(LOG_LEECH, audio=self.__sent_msg.audio.file_id, caption=logc)
+                        app.send_audio(LOG_LEECH, audio=self.__sent_msg.audio.file_id, caption=logc)
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
                 elif file_.upper().endswith(IMAGE_SUFFIXES):
@@ -136,7 +136,7 @@ class TgUploader:
                                                               disable_notification=True,
                                                               progress=self.__upload_progress)
                     try:
-                        bot.send_photo(LOG_LEECH, photo=self.__sent_msg.photo.file_id, caption=logc)
+                        app.send_photo(LOG_LEECH, photo=self.__sent_msg.photo.file_id, caption=logc)
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
                 else:
@@ -156,7 +156,7 @@ class TgUploader:
                                                              disable_notification=True,
                                                              progress=self.__upload_progress)
                 try:
-                    bot.send_document(LOG_LEECH, document=self.__sent_msg.document.file_id, caption=logc)
+                    app.send_document(LOG_LEECH, document=self.__sent_msg.document.file_id, caption=logc)
                 except Exception as err:
                     LOGGER.error(f"Failed to log to channel:\n{err}")
         except FloodWait as f:
