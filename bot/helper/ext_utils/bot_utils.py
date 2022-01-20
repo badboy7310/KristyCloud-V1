@@ -126,7 +126,7 @@ def get_readable_message():
             START = COUNT
         for index, download in enumerate(list(download_dict.values())[START:], start=1):
             reply_to = download.message.reply_to_message
-            msg += f"<b>▬▬▬ @BaashaXclouD ▬▬▬</b>\n\n𝗙𝗶𝗹𝗲𝗻𝗮𝗺𝗲: <code>{download.name()}</code>"
+            msg += f"<b>▬▬▬▬ @BaashaXclouD ▬▬▬▬</b>\n\n𝗙𝗶𝗹𝗲𝗻𝗮𝗺𝗲: <code>{download.name()}</code>"
             msg += f"\n𝗦𝘁𝗮𝘁𝘂𝘀: <i>{download.status()}</i>"
             if download.status() not in [
                 MirrorStatus.STATUS_ARCHIVING,
@@ -148,7 +148,7 @@ def get_readable_message():
                     msg += f"\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name}</a>"
                 # if hasattr(download, 'is_torrent'):
                 try:
-                    msg += f"\n𝗨𝗦𝗘𝗥 𝗜𝗗:<code>/warn {download.message.from_user.id}</code>"
+                    msg += f"\n𝗨𝗦𝗘𝗥 𝗜𝗗: <code>/warn {download.message.from_user.id}</code>"
                 except:
                     pass
                 try:
@@ -163,14 +163,14 @@ def get_readable_message():
                            f" | 𝗟𝗲𝗲𝗰𝗵𝗲𝗿𝘀: {download.torrent_info().num_leechs}"
                 except:
                     pass
-                msg += f"\n<b>𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹 :</b><code>/{BotCommands.CancelMirror} {download.gid()}</code>\n___________________________"
+                msg += f"\n𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹: <code>/{BotCommands.CancelMirror} {download.gid()}</code>\n_____________________________"
             elif download.status() == MirrorStatus.STATUS_SEEDING:
                 msg += f"\n𝗦𝗶𝘇𝗲: {download.size()}"
                 msg += f"\n𝗦𝗽𝗲𝗲𝗱: {get_readable_file_size(download.torrent_info().upspeed)}/s"
                 msg += f" | 𝗨𝗽𝗹𝗼𝗮𝗱𝗲𝗱: {get_readable_file_size(download.torrent_info().uploaded)}"
                 msg += f"\n𝗥𝗮𝘁𝗶𝗼: {round(download.torrent_info().ratio, 3)}"
                 msg += f" | 𝗧𝗶𝗺𝗲: {get_readable_time(download.torrent_info().seeding_time)}"
-                msg += f"\n<b>𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹 :</b><code>/{BotCommands.CancelMirror} {download.gid()}</code>\n___________________________"
+                msg += f"\n𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹: <code>/{BotCommands.CancelMirror} {download.gid()}</code>\n_____________________________"
             else:
                 msg += f"\n𝗦𝗶𝘇𝗲: {download.size()}"
             msg += "\n\n"
