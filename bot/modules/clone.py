@@ -33,8 +33,7 @@ def cloneNode(update, context):
     else:
         link = ''
     if is_gdtot_link:
-        try:
-            sendMessage(f"Use /gdtot{BOT_NO} for GDToT Links", context.bot, update)
+        sendMessage(f"Use /gdtot{BOT_NO} for GDToT Links", context.bot, update)
     if is_gdrive_link(link):
         gd = GoogleDriveHelper()
         res, size, name, files = gd.helper(link)
