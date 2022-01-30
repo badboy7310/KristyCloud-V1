@@ -53,8 +53,8 @@ def cloneNode(update, context):
                 return sendMessage(msg2, context.bot, update)
         if files <= 10:
             msg = sendMessage(f"♻️𝗖𝗹𝗼𝗻𝗶𝗻𝗴: <code>{link}</code>", context.bot, update)
-            result, button = gd.clone(link)
             msgt = f"User: {uname}\nUser ID: /warm{uid}\n\nLink Sended:\n<code>{link}</code>\n\n#Gdrive"
+            result, button = gd.clone(link)
             sendtextlog(msgt, context.bot, update)
             deleteMessage(context.bot, msg)
         else:
