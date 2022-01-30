@@ -180,7 +180,6 @@ def get_readable_message():
         total, used, free, _ = disk_usage('.')
         free = get_readable_file_size(free)
         currentTime = get_readable_time(time() - botStartTime)
-        bmsg = f"𝗖𝗣𝗨: {cpu_percent()}% | 𝗙𝗥𝗘𝗘: {free}"
         for download in list(download_dict.values()):
             speedy = download.speed()
             if download.status() == MirrorStatus.STATUS_DOWNLOADING:
@@ -195,8 +194,7 @@ def get_readable_message():
                     uldl_bytes += float(speedy.split('M')[0]) * 1048576
         dlspeed = get_readable_file_size(dlspeed_bytes)
         ulspeed = get_readable_file_size(uldl_bytes)
-        bmsg += f"\n𝗥𝗔𝗠: {virtual_memory().percent}% | 𝗨𝗣𝗧𝗜𝗠𝗘: {currentTime}"
-        bmsg += f"\n𝗗𝗟: {dlspeed}/s🔻 | 𝗨𝗟: {ulspeed}/s🔺"
+        bmsg = f"\n𝗗𝗟: {dlspeed}/s🔻 | 𝗨𝗟: {ulspeed}/s🔺"
         buttons = ButtonMaker()
         buttons.sbutton("🔄", str(ONE))
         buttons.sbutton("❌", str(TWO))
@@ -211,8 +209,8 @@ def get_readable_message():
             buttons.sbutton("❌", str(TWO))
             buttons.sbutton("📈", str(THREE))
             button = InlineKeyboardMarkup(buttons.build_menu(3))
-            return msg, button
-        return msg, sbutton
+            return msg + bmsg, button
+        return msg + bmsg, sbutton
 
 ONE, TWO, THREE = range(3)
                 
@@ -230,7 +228,7 @@ def close(update, context):
         query.answer()  
         query.message.delete() 
     else:  
-        query.answer(text="Nice Try, Get Lost", show_alert=True)
+        query.answer(text="Nice Try, Get Lost.\n\nOnly Owner can use this.", show_alert=True)
         
 def stats(update, context):
     query = update.callback_query
@@ -244,7 +242,7 @@ def stats(update, context):
     cpuUsage = cpu_percent(interval=0.5)
     memory = virtual_memory()
     mem_p = memory.percent
-    query.answer(text=f"<b>Bot Uptime:</b> {currentTime}\n\n<b>Total Disk Space:</b> {total}\n<b>Used:</b> {used} | <b>Free:</b> {free}\n\n<b>Upload:</b> {sent}\n<b>Download:</b> {recv}\n\n<b>CPU:</b> {cpuUsage}%\n<b>RAM:</b> {mem_p}%\n<b>DISK:</b> {disk}%", show_alert=True)
+    query.answer(text=f"Bot Uptime: {currentTime}\n\nTotal Disk Space: {total}\nUsed: {used} | Free: {free}\n\nUpload: {sent}\nDownload: {recv}\n\nCPU: {cpuUsage}%\nRAM: {mem_p}%\nDISK: {disk}%\n\n#BaashaXclouD", show_alert=True)
     
 def turn(data):
     try:
@@ -286,6 +284,17 @@ def get_readable_time(seconds: int) -> str:
     result += f'{seconds}s'
     return result
 
+def update_all_messages():
+    msg, buttons = get_readable_message()
+    with status_reply_dict_lock:
+        for chat_id in list(status_reply_dict.keys()):
+            if status_reply_dict[chat_id] and msg != status_reply_dict[chat_id].text:
+                if buttons == "":
+                    editMessage(msg, status_reply_dict[chat_id])
+                else:
+                    editMessage(msg, status_reply_dict[chat_id], buttons)
+                status_reply_dict[chat_id].text = msg
+                
 def is_url(url: str):
     url = findall(URL_REGEX, url)
     return bool(url)
