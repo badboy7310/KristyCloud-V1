@@ -1,14 +1,15 @@
 from re import match, findall
 from threading import Thread, Event
-from time import time
+from time import time, sleep
 from math import ceil
-from psutil import virtual_memory, cpu_percent, disk_usage
+from psutil import virtual_memory, cpu_percent, disk_usage, cpu_count, net_io_counters
 from requests import head as rhead
 from urllib.request import urlopen
 from telegram import InlineKeyboardMarkup
+from telegram.ext import CallbackQueryHandler
 
 from bot.helper.telegram_helper.bot_commands import BotCommands
-from bot import download_dict, download_dict_lock, STATUS_LIMIT, botStartTime
+from bot import download_dict, download_dict_lock, STATUS_LIMIT, botStartTime, LOGGER, status_reply_dict, status_reply_dict_lock, dispatcher, bot, OWNER_ID
 from bot.helper.telegram_helper.button_build import ButtonMaker
 
 MAGNET_REGEX = r"magnet:\?xt=urn:btih:[a-zA-Z0-9]*"
@@ -163,23 +164,19 @@ def get_readable_message():
                            f" | 𝗟𝗲𝗲𝗰𝗵𝗲𝗿𝘀: {download.torrent_info().num_leechs}"
                 except:
                     pass
-                msg += f"\n𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹: <code>/{BotCommands.CancelMirror} {download.gid()}</code>\n_____________________________"
+                msg += f"\n𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹: <code>/{BotCommands.CancelMirror} {download.gid()}</code>\n________________________________"
             elif download.status() == MirrorStatus.STATUS_SEEDING:
                 msg += f"\n𝗦𝗶𝘇𝗲: {download.size()}"
                 msg += f"\n𝗦𝗽𝗲𝗲𝗱: {get_readable_file_size(download.torrent_info().upspeed)}/s"
                 msg += f" | 𝗨𝗽𝗹𝗼𝗮𝗱𝗲𝗱: {get_readable_file_size(download.torrent_info().uploaded)}"
                 msg += f"\n𝗥𝗮𝘁𝗶𝗼: {round(download.torrent_info().ratio, 3)}"
                 msg += f" | 𝗧𝗶𝗺𝗲: {get_readable_time(download.torrent_info().seeding_time)}"
-                msg += f"\n𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹: <code>/{BotCommands.CancelMirror} {download.gid()}</code>\n_____________________________"
+                msg += f"\n𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹: <code>/{BotCommands.CancelMirror} {download.gid()}</code>\n________________________________"
             else:
                 msg += f"\n𝗦𝗶𝘇𝗲: {download.size()}"
             msg += "\n\n"
             if STATUS_LIMIT is not None and index == STATUS_LIMIT:
                 break
-        total, used, free, _ = disk_usage('.')
-        free = get_readable_file_size(free)
-        currentTime = get_readable_time(time() - botStartTime)
-        bmsg = f"𝗖𝗣𝗨: {cpu_percent()}% | 𝗙𝗥𝗘𝗘: {free}"
         for download in list(download_dict.values()):
             speedy = download.speed()
             if download.status() == MirrorStatus.STATUS_DOWNLOADING:
@@ -196,15 +193,55 @@ def get_readable_message():
         ulspeed = get_readable_file_size(uldl_bytes)
         bmsg += f"\n𝗥𝗔𝗠: {virtual_memory().percent}% | 𝗨𝗣𝗧𝗜𝗠𝗘: {currentTime}"
         bmsg += f"\n𝗗𝗟: {dlspeed}/s | 𝗨𝗟: {ulspeed}/s"
+        buttons = ButtonMaker()
+        buttons.sbutton("🔄", str(ONE))
+        buttons.sbutton("❌", str(TWO))
+        buttons.sbutton("📈", str(THREE))
+        sbutton = InlineKeyboardMarkup(buttons.build_menu(3))
         if STATUS_LIMIT is not None and tasks > STATUS_LIMIT:
             msg += f"📖 𝗣𝗮𝗴𝗲𝘀: {PAGE_NO}/{pages} | 📝 𝗧𝗮𝘀𝗸𝘀: {tasks}\n"
             buttons = ButtonMaker()
             buttons.sbutton("⬅️", "status pre")
+            buttons.sbutton("🔄", str(ONE))
             buttons.sbutton("➡️", "status nex")
-            button = InlineKeyboardMarkup(buttons.build_menu(2))
-            return msg + bmsg, button
-        return msg + bmsg, ""
+            buttons.sbutton("❌", str(TWO))
+            buttons.sbutton("📈", str(THREE))
+            button = InlineKeyboardMarkup(buttons.build_menu(3))
+            return msg, button
+        return msg, sbutton
 
+ONE, TWO, THREE = range(3)
+
+def refresh(update, context):
+    query = update.callback_query
+    query.answer()
+    query.edit_message_text(text="👻")
+    sleep(3)
+    update_all_messages()
+
+def close(update, context):  
+    query = update.callback_query  
+    user_id = query.from_user.id  
+    if user_id == OWNER_ID:  
+        query.answer()  
+        query.message.delete() 
+    else:  
+        query.answer(text="Nice Try ):", show_alert=True)
+        
+def stats(update, context):
+    query = update.callback_query
+    currentTime = get_readable_time(time() - botStartTime)
+    total, used, free, disk= disk_usage('/')
+    total = get_readable_file_size(total)
+    used = get_readable_file_size(used)
+    free = get_readable_file_size(free)
+    sent = get_readable_file_size(net_io_counters().bytes_sent)
+    recv = get_readable_file_size(net_io_counters().bytes_recv)
+    cpuUsage = cpu_percent(interval=0.5)
+    memory = virtual_memory()
+    mem_p = memory.percent
+    query.answer(text=f"Bot Uptime: {currentTime}\n\nTotal Disk Space: {total}\nUsed: {used} | Free: {free}\n\nUpload: {sent}\nDownload: {recv}\n\nCPU: {cpuUsage}%\nRAM: {mem_p}%\nDISK: {disk}%", show_alert=True)
+    
 def turn(data):
     try:
         with download_dict_lock:
@@ -299,4 +336,8 @@ def get_content_type(link: str):
         except:
             content_type = None
     return content_type
+
+dispatcher.add_handler(CallbackQueryHandler(refresh, pattern='^' + str(ONE) + '$'))
+dispatcher.add_handler(CallbackQueryHandler(close, pattern='^' + str(TWO) + '$'))
+dispatcher.add_handler(CallbackQueryHandler(stats, pattern='^' + str(THREE) + '$'))
 
