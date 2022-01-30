@@ -214,6 +214,17 @@ def get_readable_message():
 
 ONE, TWO, THREE = range(3)
 
+def update_all_messages():
+    msg, buttons = get_readable_message()
+    with status_reply_dict_lock:
+        for chat_id in list(status_reply_dict.keys()):
+            if status_reply_dict[chat_id] and msg != status_reply_dict[chat_id].text:
+                if buttons == "":
+                    editMessage(msg, status_reply_dict[chat_id])
+                else:
+                    editMessage(msg, status_reply_dict[chat_id], buttons)
+                status_reply_dict[chat_id].text = msg
+                
 def refresh(update, context):
     query = update.callback_query
     query.answer()
@@ -242,7 +253,7 @@ def stats(update, context):
     cpuUsage = cpu_percent(interval=0.5)
     memory = virtual_memory()
     mem_p = memory.percent
-    query.answer(text=f"<b>Bot Uptime:</b> {currentTime}\n\n<b>Total Disk Space:</b> {total}\n<b>Used:</b> {used} | <b>Free:</b> {free}\n\n<b>Upload:</b> {sent}\n<b>Download:</b> {recv}\n\n<b>CPU:</b> {cpuUsage}%\n<b>RAM:</b> {mem_p}%\n<b>DISK:</b> {disk}%\n\n#BaashaXclouD", show_alert=True)
+    query.answer(text=f"<b>Bot Uptime:</b> {currentTime}\n\n<b>Total Disk Space:</b> {total}\n<b>Used:</b> {used} | <b>Free:</b> {free}\n\n<b>Upload:</b> {sent}\n<b>Download:</b> {recv}\n\n<b>CPU:</b> {cpuUsage}%\n<b>RAM:</b> {mem_p}%\n<b>DISK:</b> {disk}%", show_alert=True)
     
 def turn(data):
     try:
