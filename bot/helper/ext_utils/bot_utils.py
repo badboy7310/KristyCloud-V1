@@ -217,8 +217,8 @@ ONE, TWO, THREE = range(3)
 def refresh(update, context):
     query = update.callback_query
     query.answer()
-    query.edit_message_text(text="Refreshing👻")
-    sleep(2)
+    query.edit_message_text(text="Refreshing...Please Wait👻")
+    sleep(1)
 
 def close(update, context):  
     query = update.callback_query  
