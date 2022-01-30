@@ -6,7 +6,7 @@ from telegram.error import RetryAfter
 from pyrogram.errors import FloodWait
 
 from bot import AUTO_DELETE_MESSAGE_DURATION, LOGGER, status_reply_dict, status_reply_dict_lock, \
-                Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL, RSS_CHAT_ID, rss_session, bot, LOG_CHANNEL, LOG_CHANNEL_LINK
+                Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL, RSS_CHAT_ID, rss_session, bot, LOG_CHANNEL, LOG_CHANNEL_LINK1, LOG_CHANNEL_LINK2, LOG_CHANNEL_LOGGER
 from bot.helper.ext_utils.bot_utils import get_readable_message, setInterval
 
 
@@ -42,6 +42,14 @@ def sendLog(text: str, bot, update: Update, reply_markup: InlineKeyboardMarkup):
         return bot.send_message(f"{LOG_CHANNEL}",
                              reply_to_message_id=update.message.message_id,
                              text=text, disable_web_page_preview=True, reply_markup=reply_markup, allow_sending_without_reply=True, parse_mode='HTMl')
+    except Exception as e:
+        LOGGER.error(str(e))
+        
+def sendtextlog(text: str, bot, update: Update):
+    try:
+        return bot.send_message(f"{LOG_CHANNEL_LOGGER}",
+                             reply_to_message_id=update.message.message_id,
+                             text=text, disable_web_page_preview=True, allow_sending_without_reply=True, parse_mode='HTMl')
     except Exception as e:
         LOGGER.error(str(e))
 
@@ -94,8 +102,9 @@ def sendPrivate(text: str, bot, update: Update, reply_markup: InlineKeyboardMark
             uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
             botstart = f"http://t.me/{b_uname}?start=start"
             keyboard = [
-            [InlineKeyboardButton("𝗦𝗧𝗔𝗥𝗧 𝗠𝗘", url = f"{botstart}")],
-            [InlineKeyboardButton("𝗝𝗢𝗜𝗡 𝗛𝗘𝗥𝗘", url = f"{LOG_CHANNEL_LINK}")]]
+            [InlineKeyboardButton("Start Meh 🔗", url = f"{botstart}")],
+            [InlineKeyboardButton("Mirror Logs📬", url = f"{LOG_CHANNEL_LINK1}")],
+            [InlineKeyboardButton("Leech Logs📬", url = f"{LOG_CHANNEL_LINK2}")]]
             sendMarkup(f"𝗕𝗿𝗼 {uname},\n\n<b>ɪ ғᴏᴜɴᴅ ᴛʜᴀᴛ ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ sᴛᴀʀᴛᴇᴅ ᴍᴇ ɪɴ ᴘᴍ ʏᴇᴛ.</b>\n\n𝗙𝗿𝗼𝗺 𝗡𝗼𝘄 𝗼𝗻 𝗜 𝘄𝗶𝗹𝗹 𝗚𝗶𝘃𝗲 𝗟𝗶𝗻𝗸𝘀 𝗶𝗻 𝗣𝗠 𝗮𝗻𝗱 𝗟𝗼𝗴 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 𝗢𝗻𝗹𝘆", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))
             return
 
