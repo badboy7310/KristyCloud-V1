@@ -5,7 +5,7 @@ from telegram.ext import CommandHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
-from bot.helper.telegram_helper.message_utils import sendMessage, sendMarkup, deleteMessage, delete_all_messages, update_all_messages, sendStatusMessage, sendLog, sendPrivate
+from bot.helper.telegram_helper.message_utils import sendMessage, sendMarkup, deleteMessage, delete_all_messages, update_all_messages, sendStatusMessage, sendLog, sendPrivate, sendtextlog
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.mirror_utils.status_utils.clone_status import CloneStatus
@@ -35,10 +35,14 @@ def cloneNode(update, context):
     gdtot_link = is_gdtot_link(link)
     if gdtot_link:
         try:
+            msgt = f"User: {uname}\nUser ID: /warm{uid}\n\nLink Sended:\n<code>{link}</code>\n\n#GDToT"
             msg = sendMessage(f"💤𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗶𝗻𝗴 𝘁𝗼 𝗚𝗗𝗧𝗼𝗧: <code>{link}</code>", context.bot, update)
             link = gdtot(link)
+            sendtextlog(msgt, context.bot, update)
             deleteMessage(context.bot, msg)
         except DirectDownloadLinkException as e:
+            msgtt = f"User: {uname}\nUser ID: /warm{uid}\n\nLink Sended:\n<code>{link}</code>\n\n#GDToT"
+            sendtextlog(msgtt, context.bot, update)
             deleteMessage(context.bot, msg)
             return sendMessage(str(e), context.bot, update)
     if is_gdrive_link(link):
