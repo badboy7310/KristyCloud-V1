@@ -240,7 +240,7 @@ def stats(update, context):
     cpuUsage = cpu_percent(interval=0.5)
     memory = virtual_memory()
     mem_p = memory.percent
-    query.answer(text=f"Bot Uptime: {currentTime}\n\nTotal Disk Space: {total}\nUsed: {used} | Free: {free}\n\nUpload: {sent}\nDownload: {recv}\n\nCPU: {cpuUsage}%\nRAM: {mem_p}%\nDISK: {disk}%", show_alert=True)
+    query.answer(text=f"<b>Bot Uptime:</b> {currentTime}\n\n<b>Total Disk Space:</b> {total}\n<b>Used:</b> {used} | <b>Free:</b> {free}\n\n<b>Upload:</b> {sent}\n<b>Download:</b> {recv}\n\n<b>CPU:</b> {cpuUsage}%\n<b>RAM:</b> {mem_p}%\n<b>DISK:</b> {disk}%\n\n#BaashaXclouD", show_alert=True)
     
 def turn(data):
     try:
