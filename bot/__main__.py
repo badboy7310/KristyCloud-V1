@@ -62,14 +62,14 @@ def stats(update, context):
             f'<b>Memory Used:</b> {mem_u}\n'
     sendMessage(stats, context.bot, update)
 
-
 def start(update, context):
+    currentTime = get_readable_time(time() - botStartTime)
     buttons = ButtonMaker()
     buttons.buildbutton("𝗕𝗮𝗮𝘀𝗵𝗮 𝗫 𝗖𝗹𝗼𝘂𝗱", "https://t.me/BaashaXclouD")
     reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         start_string = f'''
-Bot{BOT_NO} is Online💯.
+X{BOT_NO} BoT is Working.\n\nStill {currentTime}\n\n#BaashaXclouD
 '''
         sendMessage(start_string, bot, update)
     else:
@@ -163,8 +163,6 @@ help_string_telegraph = f'''<br>
 <b>/{BotCommands.CancelMirror}</b>: Reply to the message by which the download was initiated and that download will be cancelled
 <br><br>
 <b>/{BotCommands.CancelAllCommand}</b>: Cancel all downloading tasks
-<br><br>
-<b>/{BotCommands.ListCommand}</b> [query]: Search in Google Drive(s)
 <br><br>
 <b>/{BotCommands.SearchCommand}</b> [query]: Search for torrents with API
 <br>sites: <code>rarbg, 1337x, yts, etzv, tgx, torlock, piratebay, nyaasi, ettv</code><br><br>
