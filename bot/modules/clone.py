@@ -5,7 +5,7 @@ from telegram.ext import CommandHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
-from bot.helper.telegram_helper.message_utils import sendMessage, sendMarkup, deleteMessage, delete_all_messages, update_all_messages, sendStatusMessage, sendLog, sendPrivate
+from bot.helper.telegram_helper.message_utils import sendMessage, sendMarkup, deleteMessage, delete_all_messages, update_all_messages, sendStatusMessage, sendLog, sendPrivate, sendtextlog
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.mirror_utils.status_utils.clone_status import CloneStatus
@@ -33,7 +33,7 @@ def cloneNode(update, context):
     else:
         link = ''
     if is_gdtot_link:
-        sendMessage(f"Use /gdtot{BOT_NO} for GDToT Links", context.bot, update)
+        return sendMessage(f"Use /gdtot{BOT_NO} for GDToT Links", context.bot, update)
     if is_gdrive_link(link):
         gd = GoogleDriveHelper()
         res, size, name, files = gd.helper(link)
@@ -54,8 +54,12 @@ def cloneNode(update, context):
         if files <= 10:
             msg = sendMessage(f"♻️𝗖𝗹𝗼𝗻𝗶𝗻𝗴: <code>{link}</code>", context.bot, update)
             result, button = gd.clone(link)
+            msgt = f"User: {uname}\nUser ID: /warm{uid}\n\nLink Sended:\n<code>{link}</code>\n\n#Gdrive"
+            sendtextlog(msgt, context.bot, update)
             deleteMessage(context.bot, msg)
         else:
+            msgtt = f"User: {uname}\nUser ID: /warm{uid}\n\nLink Sended:\n<code>{link}</code>\n\n#Gdrive"
+            sendtextlog(msgtt, context.bot, update)
             drive = GoogleDriveHelper(name)
             gid = ''.join(random.SystemRandom().choices(string.ascii_letters + string.digits, k=12))
             clone_status = CloneStatus(drive, size, update, gid)
@@ -93,7 +97,7 @@ def cloneNode(update, context):
                 sendMarkup(result + cc + fwdpm, context.bot, update, InlineKeyboardMarkup([[InlineKeyboardButton(text="𝗖𝗟𝗜𝗖𝗞 𝗛𝗘𝗥𝗘", url=logmsg.link)]]))
                 sendPrivate(result + cc + msg_g, context.bot, update, button)
     else:
-        sendMessage('𝗦𝗲𝗻𝗱 𝗚𝗱𝗿𝗶𝘃𝗲 𝗼𝗿 𝗚𝗗𝗧𝗼𝗧 𝗹𝗶𝗻𝗸 𝗮𝗹𝗼𝗻𝗴 𝘄𝗶𝘁𝗵 𝗰𝗼𝗺𝗺𝗮𝗻𝗱 𝗼𝗿 𝗯𝘆 𝗿𝗲𝗽𝗹𝘆𝗶𝗻𝗴 𝘁𝗼 𝘁𝗵𝗲 𝗹𝗶𝗻𝗸 𝗯𝘆 𝗰𝗼𝗺𝗺𝗮𝗻𝗱', context.bot, update)
+        sendMessage('𝗦𝗲𝗻𝗱 𝗚𝗱𝗿𝗶𝘃𝗲 𝗹𝗶𝗻𝗸 𝗮𝗹𝗼𝗻𝗴 𝘄𝗶𝘁𝗵 𝗰𝗼𝗺𝗺𝗮𝗻𝗱 𝗼𝗿 𝗯𝘆 𝗿𝗲𝗽𝗹𝘆𝗶𝗻𝗴 𝘁𝗼 𝘁𝗵𝗲 𝗹𝗶𝗻𝗸 𝗯𝘆 𝗰𝗼𝗺𝗺𝗮𝗻𝗱', context.bot, update)
 
 clone_handler = CommandHandler(BotCommands.CloneCommand, cloneNode, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 dispatcher.add_handler(clone_handler)
