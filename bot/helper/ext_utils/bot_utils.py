@@ -180,6 +180,7 @@ def get_readable_message():
         total, used, free, _ = disk_usage('.')
         free = get_readable_file_size(free)
         currentTime = get_readable_time(time() - botStartTime)
+        bmsg = f"𝗖𝗣𝗨: {cpu_percent()}% | 𝗙𝗥𝗘𝗘: {free}"
         for download in list(download_dict.values()):
             speedy = download.speed()
             if download.status() == MirrorStatus.STATUS_DOWNLOADING:
@@ -194,7 +195,8 @@ def get_readable_message():
                     uldl_bytes += float(speedy.split('M')[0]) * 1048576
         dlspeed = get_readable_file_size(dlspeed_bytes)
         ulspeed = get_readable_file_size(uldl_bytes)
-        bmsg = f"\n𝗗𝗟: {dlspeed}/s🔻 | 𝗨𝗟: {ulspeed}/s🔺"
+        bmsg += f"\n𝗥𝗔𝗠: {virtual_memory().percent}% | 𝗨𝗣𝗧𝗜𝗠𝗘: {currentTime}"
+        bmsg += f"\n𝗗𝗟: {dlspeed}/s🔻 | 𝗨𝗟: {ulspeed}/s🔺"
         buttons = ButtonMaker()
         buttons.sbutton("🔄", str(ONE))
         buttons.sbutton("❌", str(TWO))
