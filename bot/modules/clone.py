@@ -18,6 +18,8 @@ from bot.helper.ext_utils.exceptions import DirectDownloadLinkException
 def cloneNode(update, context):
     args = update.message.text.split(" ", maxsplit=1)
     reply_to = update.message.reply_to_message
+    uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
+    uid= f"<a>{update.message.from_user.id}</a>"
     if len(args) > 1:
         link = args[1]
         if update.message.from_user.username:
@@ -34,7 +36,7 @@ def cloneNode(update, context):
         link = ''
     if is_gdtot_link:
         return sendMessage(f"Use /gdtot{BOT_NO} for GDToT Links", context.bot, update)
-    if is_gdrive_link(link):
+    elif is_gdrive_link(link):
         gd = GoogleDriveHelper()
         res, size, name, files = gd.helper(link)
         if res != "":
