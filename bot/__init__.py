@@ -152,7 +152,8 @@ try:
     AUTO_DELETE_MESSAGE_DURATION = int(getConfig('AUTO_DELETE_MESSAGE_DURATION'))
     TELEGRAM_API = getConfig('TELEGRAM_API')
     TELEGRAM_HASH = getConfig('TELEGRAM_HASH')
-    LOG_CHANNEL_LINK = getConfig('LOG_CHANNEL_LINK')
+    LOG_CHANNEL_LINK1 = getConfig('LOG_CHANNEL_LINK1')
+    LOG_CHANNEL_LINK2 = getConfig('LOG_CHANNEL_LINK2')
 except KeyError as e:
     LOGGER.error("One or more env variables missing! Exiting now")
     exit(1)
@@ -468,6 +469,14 @@ try:
 except KeyError:
     logging.warning('LOG_CHANNEL not provided!')
     LOG_CHANNEL = None
+    
+try:
+    LOG_CHANNEL_LOGGER = int(getConfig('LOG_CHANNEL_LOGGER'))
+    if int(LOG_CHANNEL_LOGGER) == 0:
+        raise KeyError
+except KeyError:
+    logging.warning('LOG_CHANNEL_LOGGER not provided!')
+    LOG_CHANNEL_LOGGER = None 
     
 try:
     LOG_LEECH = int(getConfig('LOG_LEECH'))
