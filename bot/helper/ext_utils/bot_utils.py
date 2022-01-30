@@ -194,19 +194,19 @@ def get_readable_message():
                     uldl_bytes += float(speedy.split('M')[0]) * 1048576
         dlspeed = get_readable_file_size(dlspeed_bytes)
         ulspeed = get_readable_file_size(uldl_bytes)
-        bmsg = f"\n𝗗𝗟: {dlspeed}/s🔻 | 𝗨𝗟: {ulspeed}/s🔺"
+        msg += f"📖 𝗣𝗮𝗴𝗲𝘀: {PAGE_NO}/{pages} | 📝 𝗧𝗮𝘀𝗸𝘀: {tasks}"
+        bmsg = f"\n𝗗𝗹: {dlspeed}/s🔻 | 𝗨𝗹: {ulspeed}/s🔺"
         buttons = ButtonMaker()
         buttons.sbutton("🔄", str(ONE))
         buttons.sbutton("❌", str(TWO))
         buttons.sbutton("📈", str(THREE))
         sbutton = InlineKeyboardMarkup(buttons.build_menu(3))
         if STATUS_LIMIT is not None and tasks > STATUS_LIMIT:
-            msg += f"📖 𝗣𝗮𝗴𝗲𝘀: {PAGE_NO}/{pages} | 📝 𝗧𝗮𝘀𝗸𝘀: {tasks}\n"
             buttons = ButtonMaker()
             buttons.sbutton("⬅️", "status pre")
-            buttons.sbutton("🔄", str(ONE))
-            buttons.sbutton("➡️", "status nex")
             buttons.sbutton("❌", str(TWO))
+            buttons.sbutton("➡️", "status nex")
+            buttons.sbutton("🔄", str(ONE))
             buttons.sbutton("📈", str(THREE))
             button = InlineKeyboardMarkup(buttons.build_menu(3))
             return msg + bmsg, button
@@ -217,9 +217,8 @@ ONE, TWO, THREE = range(3)
 def refresh(update, context):
     query = update.callback_query
     query.answer()
-    query.edit_message_text(text="👻")
+    query.edit_message_text(text="Refreshing👻")
     sleep(2)
-    update_all_messages()
 
 def close(update, context):  
     query = update.callback_query  
@@ -283,17 +282,6 @@ def get_readable_time(seconds: int) -> str:
     seconds = int(seconds)
     result += f'{seconds}s'
     return result
-
-def update_all_messages():
-    msg, buttons = get_readable_message()
-    with status_reply_dict_lock:
-        for chat_id in list(status_reply_dict.keys()):
-            if status_reply_dict[chat_id] and msg != status_reply_dict[chat_id].text:
-                if buttons == "":
-                    editMessage(msg, status_reply_dict[chat_id])
-                else:
-                    editMessage(msg, status_reply_dict[chat_id], buttons)
-                status_reply_dict[chat_id].text = msg
                 
 def is_url(url: str):
     url = findall(URL_REGEX, url)
