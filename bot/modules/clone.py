@@ -34,9 +34,7 @@ def cloneNode(update, context):
             tag = reply_to.from_user.mention_html(reply_to.from_user.first_name)
     else:
         link = ''
-    if is_gdtot_link:
-        return sendMessage(f"Use /gdtot{BOT_NO} for GDToT Links", context.bot, update)
-    elif is_gdrive_link(link):
+    if is_gdrive_link(link):
         gd = GoogleDriveHelper()
         res, size, name, files = gd.helper(link)
         if res != "":
@@ -98,6 +96,8 @@ def cloneNode(update, context):
                 log_m = f"\n\n𝗟𝗶𝗻𝗸 𝗨𝗽𝗹𝗼𝗮𝗱𝗲𝗱, 𝗖𝗹𝗶𝗰𝗸 𝗕𝗲𝗹𝗼𝘄 𝗕𝘂𝘁𝘁𝗼𝗻👇"
                 sendMarkup(result + cc + fwdpm, context.bot, update, InlineKeyboardMarkup([[InlineKeyboardButton(text="𝗖𝗟𝗜𝗖𝗞 𝗛𝗘𝗥𝗘", url=logmsg.link)]]))
                 sendPrivate(result + cc + msg_g, context.bot, update, button)
+    if is_gdtot_link:
+        return sendMessage(f"Use /gdtot{BOT_NO} for GDToT Links", context.bot, update)
     else:
         sendMessage('𝗦𝗲𝗻𝗱 𝗚𝗱𝗿𝗶𝘃𝗲 𝗹𝗶𝗻𝗸 𝗮𝗹𝗼𝗻𝗴 𝘄𝗶𝘁𝗵 𝗰𝗼𝗺𝗺𝗮𝗻𝗱 𝗼𝗿 𝗯𝘆 𝗿𝗲𝗽𝗹𝘆𝗶𝗻𝗴 𝘁𝗼 𝘁𝗵𝗲 𝗹𝗶𝗻𝗸 𝗯𝘆 𝗰𝗼𝗺𝗺𝗮𝗻𝗱', context.bot, update)
 
