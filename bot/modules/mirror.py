@@ -464,7 +464,7 @@ def _mirror(bot, update, isZip=False, extract=False, isQbit=False, isLeech=False
         Thread(target=add_qb_torrent, args=(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener, qbitsel)).start()
 
     else:
-        bot_start(bot, update, "")
+        sendPrivate("", bot, update, "")
         sendtextlog(f"<b>User: {uname}</b>\n<b>User ID:</b> <code>/warn {uid}</code>\n\n<b>Link Sended:</b>\n<code>{link}</code>\n\n#Aria2", bot, update)
         Thread(target=add_aria2c_download, args=(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener, name)).start()
 
@@ -503,24 +503,6 @@ def qb_unzip_leech(update, context):
 
 def qb_zip_leech(update, context):
     _mirror(context.bot, update, True, isQbit=True, isLeech=True)
- 
-def bot_start(bot, update, reply_markup):
-    bot_d = bot.get_me()
-    b_uname = bot_d.username
-    
-    try:
-        return bot.send_message(update.message.from_user.id,
-                             reply_to_message_id=update.message.message_id,
-                             disable_web_page_preview=True, reply_markup=reply_markup, allow_sending_without_reply=True, parse_mode='HTMl')
-    except Exception as e:
-        LOGGER.error(str(e))
-        if "Forbidden" in str(e):
-            uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
-            botstart = f"http://t.me/{b_uname}?start=start"
-            keyboard = [
-            [InlineKeyboardButton("𝐒𝐓𝐀𝐑𝐓 𝐌𝐄", url = f"{botstart}")]]
-            sendMarkup(f"𝙳𝙴𝙰𝚁 {uname},\n\n<b>ɪ ғᴏᴜɴᴅ ᴛʜᴀᴛ ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ sᴛᴀʀᴛᴇᴅ ᴍᴇ ɪɴ ᴘᴍ (ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀᴛ) ʏᴇᴛ.</b>\n\n𝐅𝐑𝐎𝐌 𝐍𝐎𝐖 𝐎𝐍 𝐈 𝐖𝐈𝐋𝐋 𝐆𝐈𝐕𝐄 𝐋𝐈𝐍𝐊 𝐈𝐍 𝐏𝐌 (𝐏𝐑𝐈𝐕𝐀𝐓𝐄 𝐂𝐇𝐀𝐓) 𝐀𝐍𝐃 𝐋𝐎𝐆 𝐂𝐇𝐀𝐍𝐍𝐄𝐋 𝐎𝐍𝐋𝐘", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))
-            return
 
 mirror_handler = CommandHandler(BotCommands.MirrorCommand, mirror,
                                 filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
