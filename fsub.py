@@ -55,7 +55,7 @@ def _check_member(client, message):
       except UserNotParticipant:
          try:
               chat_u = chat_u.replace('@','')
-              tauk = bx.message.from_user.mention
+              tauk = message.from_user.mention
               sent_message = message.reply_text(
                  "{} , you are not subscribed to my channel yet. Please join using below button and press the UnMute Me button to unmute yourself.".format(message.from_user.mention, channel, channel),
                 disable_web_page_preview=True,
