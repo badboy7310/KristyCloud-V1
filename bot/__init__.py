@@ -463,6 +463,13 @@ except KeyError:
     HEROKU_API_KEY = None
 
 try:
+    IMAGE_URL = getConfig('IMAGE_URL')
+    if len(IMAGE_URL) == 0:
+        IMAGE_URL = None
+except KeyError:
+    IMAGE_URL = 'https://telegra.ph/file/f85d8e57d44ea5deb0d69.jpg'
+    
+try:
     LOG_CHANNEL = int(getConfig('LOG_CHANNEL'))
     if int(LOG_CHANNEL) == 0:
         raise KeyError
