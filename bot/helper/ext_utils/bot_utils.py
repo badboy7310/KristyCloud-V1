@@ -177,8 +177,6 @@ def get_readable_message():
             msg += "\n\n"
             if STATUS_LIMIT is not None and index == STATUS_LIMIT:
                 break
-        total, used, free, _ = disk_usage('.')
-        free = get_readable_file_size(free)
         currentTime = get_readable_time(time() - botStartTime)
         for download in list(download_dict.values()):
             speedy = download.speed()
@@ -217,7 +215,7 @@ ONE, TWO, THREE = range(3)
 def refresh(update, context):
     query = update.callback_query
     query.answer()
-    query.edit_message_text(text="Refreshing...Please Wait👻")
+    query.edit_message_text(text="𝗥𝗲𝗳𝗿𝗲𝘀𝗵𝗶𝗻𝗴...👻")
     sleep(1)
 
 def close(update, context):  
@@ -227,7 +225,7 @@ def close(update, context):
         query.answer()  
         query.message.delete() 
     else:  
-        query.answer(text="Nice Try, Get Lost.\n\nOnly Owner can use this.", show_alert=True)
+        query.answer(text="Nice Try, Get Lost🥱.\n\nOnly Owner can use this.", show_alert=True)
         
 def stats(update, context):
     query = update.callback_query
@@ -241,7 +239,7 @@ def stats(update, context):
     cpuUsage = cpu_percent(interval=0.5)
     memory = virtual_memory()
     mem_p = memory.percent
-    query.answer(text=f"Bot Uptime: {currentTime}\n\nTotal Disk Space: {total}\nUsed: {used} | Free: {free}\n\nUpload: {sent}\nDownload: {recv}\n\nCPU: {cpuUsage}%\nRAM: {mem_p}%\nDISK: {disk}%\n\n#BaashaXclouD", show_alert=True)
+    query.answer(text=f"BoT Uptime: {currentTime}\n\nTotal Disk Space: {total}\nUsed: {used} | Free: {free}\n\nUpload: {sent}\nDownload: {recv}\n\nCPU: {cpuUsage}%\nRAM: {mem_p}%\nDISK: {disk}%\n\n#BaashaXclouD", show_alert=True)
     
 def turn(data):
     try:
