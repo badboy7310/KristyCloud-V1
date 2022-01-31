@@ -155,7 +155,7 @@ try:
     LOG_CHANNEL_LINK1 = getConfig('LOG_CHANNEL_LINK1')
     LOG_CHANNEL_LINK2 = getConfig('LOG_CHANNEL_LINK2')
 except KeyError as e:
-    LOGGER.error("One or more env variables missing! Exiting now")
+    LOGGER.error("Check the Main Variables")
     exit(1)
 
 LOGGER.info("Generating BOT_STRING_SESSION")
