@@ -14,7 +14,7 @@ from telegram import ParseMode, InlineKeyboardMarkup
 from telegram.ext import CommandHandler
 
 from wserver import start_server_async
-from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, IS_VPS, PORT, alive, web, OWNER_ID, AUTHORIZED_CHATS, LOGGER, Interval, nox, rss_session, TIMEZONE, BOT_NO
+from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, IS_VPS, PORT, alive, web, OWNER_ID, AUTHORIZED_CHATS, LOGGER, Interval, nox, rss_session, TIMEZONE, IMAGE_URL, BOT_NO
 from .helper.ext_utils.fs_utils import start_cleanup, clean_all, exit_clean_up
 from .helper.telegram_helper.bot_commands import BotCommands
 from .helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile
@@ -25,6 +25,7 @@ from .helper.telegram_helper.button_build import ButtonMaker
 from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, delete, speedtest, count, leech_settings, search, rss, usage
 
 now = datetime.now(pytz.timezone(f'{TIMEZONE}'))
+IMAGE_X = f"{IMAGE_URL}"
 
 def stats(update, context):
     currentTime = get_readable_time(time() - botStartTime)
@@ -73,7 +74,8 @@ def start(update, context):
 '''
         sendMessage(start_string, bot, update)
     else:
-        sendMarkup('𝗛𝗲𝘆👋,\n\n𝗧𝗵𝗮𝗻𝗸 𝗬𝗼𝘂 𝗙𝗼𝗿 𝗦𝘂𝗯𝘀𝗰𝗿𝗶𝗯𝗶𝗻𝗴 𝗺𝗲 𝗫𝟭.\n\n#BaashaXclouD', context.bot, update, reply_markup)
+        msg1 = f'𝗛𝗲𝘆👋,\n\n𝗧𝗵𝗮𝗻𝗸 𝗬𝗼𝘂 𝗙𝗼𝗿 𝗦𝘂𝗯𝘀𝗰𝗿𝗶𝗯𝗶𝗻𝗴 𝗺𝗲 𝗫𝟭.\n\n#BaashaXclouD'
+        update.effective_message.reply_photo(IMAGE_X, msg1, parse_mode=ParseMode.HTML)
 
 def restart(update, context):
     restart_message = sendMessage("𝗥𝗲𝘀𝘁𝗮𝗿𝘁𝗶𝗻𝗴...", context.bot, update)
