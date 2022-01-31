@@ -43,11 +43,11 @@ def _onUnMuteRequest(client, cb):
         client.answer_callback_query(cb.id, text="❗ Warning: Don't click the button if you can speak freely.", show_alert=True)
 
 @baashax.on_message(filters.text & ~filters.private & ~filters.edited, group=1)
-def _check_member(client, bx):
-  chat_id = bx.message.chat.id
+def _check_member(client, message):
+  chat_id = message.chat.id
   chat_u = CHANNEL_USERNAME #channel for force sub
   if chat_u:
-    user_id = bx.message.from_user.id
+    user_id = message.from_user.id
     if not client.get_chat_member(chat_id, user_id).status in ("administrator", "creator"):
       channel = chat_u
       try:
@@ -57,7 +57,7 @@ def _check_member(client, bx):
               chat_u = chat_u.replace('@','')
               tauk = bx.message.from_user.mention
               sent_message = message.reply_text(
-                 "{} , you are not subscribed to my channel yet. Please join using below button and press the UnMute Me button to unmute yourself.".format(bx.message.from_user.mention, channel, channel),
+                 "{} , you are not subscribed to my channel yet. Please join using below button and press the UnMute Me button to unmute yourself.".format(message.from_user.mention, channel, channel),
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
                   [[InlineKeyboardButton(f"Join {chat_u} Channel", url=f"https://t.me/{chat_u}")],
