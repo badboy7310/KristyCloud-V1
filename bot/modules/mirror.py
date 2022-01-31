@@ -504,7 +504,7 @@ def qb_unzip_leech(update, context):
 def qb_zip_leech(update, context):
     _mirror(context.bot, update, True, isQbit=True, isLeech=True)
  
-def bot_start(bot, update):
+def bot_start(bot, update, reply_markup):
     bot_d = bot.get_me()
     b_uname = bot_d.username
     
