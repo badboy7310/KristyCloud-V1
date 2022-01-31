@@ -7,7 +7,7 @@ from pyrogram.types import ChatPermissions, InlineKeyboardMarkup, InlineKeyboard
 
 from bot import TELEGRAM_API, TELEGRAM_HASH, CHANNEL_USERNAME, BOT_TOKEN
 
-msp = Client(
+baashax = Client(
    "ForceSub Bot",
    api_id=TELEGRAM_API,
    api_hash=TELEGRAM_HASH,
@@ -17,7 +17,7 @@ msp = Client(
 # get mute request
 static_data_filter = filters.create(lambda _, __, query: query.data == "onUnmute")
 
-@msp.on_callback_query(static_data_filter)
+@baashax.on_callback_query(static_data_filter)
 def _onUnMuteRequest(client, cb):
   user_id = cb.from_user.id
   chat_id = cb.message.chat.id
@@ -42,7 +42,7 @@ def _onUnMuteRequest(client, cb):
       else:
         client.answer_callback_query(cb.id, text="❗ Warning: Don't click the button if you can speak freely.", show_alert=True)
 
-@msp.on_message(filters.text & ~filters.private & ~filters.edited, group=1)
+@baashax.on_message(filters.text & ~filters.private & ~filters.edited, group=1)
 def _check_member(client, bx):
   chat_id = bx.message.chat.id
   chat_u = CHANNEL_USERNAME #channel for force sub
@@ -57,7 +57,7 @@ def _check_member(client, bx):
               chat_u = chat_u.replace('@','')
               tauk = bx.message.from_user.mention
               sent_message = message.reply_text(
-                 "{} , you are not subscribed to my channel yet. Please join using below button and press the UnMute Me button to unmute yourself.".format(message.from_user.mention, channel, channel),
+                 "{} , you are not subscribed to my channel yet. Please join using below button and press the UnMute Me button to unmute yourself.".format(bx.message.from_user.mention, channel, channel),
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
                   [[InlineKeyboardButton(f"Join {chat_u} Channel", url=f"https://t.me/{chat_u}")],
@@ -70,4 +70,4 @@ def _check_member(client, bx):
       except ChatAdminRequired:
          client.send_message(chat_id, text=f"❗ **I am not an admin in {chat_u}**\n__Make me admin in the channel__")
 
-msp.run()
+baashax.run()
