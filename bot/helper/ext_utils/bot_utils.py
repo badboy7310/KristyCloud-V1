@@ -132,10 +132,10 @@ def get_readable_message():
                 globals()['COUNT'] -= STATUS_LIMIT
                 globals()['PAGE_NO'] -= 1
             START = COUNT
-        msg = f"<b>DL: {num_active} || UL: {num_upload}</b>\n\n<b>▬▬▬ @BaashaXclouD ▬▬▬</b>"
+        msg = f"<b>DL: {num_active} || UL: {num_upload}</b>\n\n<b>▬▬▬ @BaashaXclouD ▬▬▬</b>\n"
         for index, download in enumerate(list(download_dict.values())[START:], start=1):
             reply_to = download.message.reply_to_message
-            msg += f"\n\n𝗙𝗶𝗹𝗲𝗻𝗮𝗺𝗲: <code>{download.name()}</code>"
+            msg += f"\n𝗙𝗶𝗹𝗲𝗻𝗮𝗺𝗲: <code>{download.name()}</code>"
             msg += f"\n𝗦𝘁𝗮𝘁𝘂𝘀: <i>{download.status()}</i>"
             if download.status() not in [
                 MirrorStatus.STATUS_ARCHIVING,
@@ -182,7 +182,7 @@ def get_readable_message():
                 msg += f"\n𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹: <code>/{BotCommands.CancelMirror} {download.gid()}</code>\n________________________________"
             else:
                 msg += f"\n𝗦𝗶𝘇𝗲: {download.size()}"
-            msg += "\n\n"
+            msg += "\n"
             if STATUS_LIMIT is not None and index == STATUS_LIMIT:
                 break
         currentTime = get_readable_time(time() - botStartTime)
@@ -218,6 +218,17 @@ def get_readable_message():
             return msg + bmsg, button
         return msg + bmsg, sbutton
 
+def update_all_messages():
+    msg, buttons = get_readable_message()
+    with status_reply_dict_lock:
+        for chat_id in list(status_reply_dict.keys()):
+            if status_reply_dict[chat_id] and msg != status_reply_dict[chat_id].text:
+                if buttons == "":
+                    editMessage(msg, status_reply_dict[chat_id])
+                else:
+                    editMessage(msg, status_reply_dict[chat_id], buttons)
+                status_reply_dict[chat_id].text = msg
+                
 ONE, TWO, THREE = range(3)
                 
 def refresh(update, context):
@@ -225,30 +236,52 @@ def refresh(update, context):
     query.answer()
     query.edit_message_text(text="𝗥𝗲𝗳𝗿𝗲𝘀𝗵𝗶𝗻𝗴...👻")
     sleep(1)
+    update_all_messages()
 
 def close(update, context):  
-    query = update.callback_query  
-    user_id = query.from_user.id  
-    if user_id == OWNER_ID:  
+    chat_id  = update.effective_chat.id
+    user_id = update.callback_query.from_user.id
+    bot = context.bot
+    query = update.callback_query
+    admins = bot.get_chat_member(chat_id, user_id).status in ['creator', 'administrator'] or user_id in [OWNER_ID] 
+    if admins: 
         query.answer()  
         query.message.delete() 
     else:  
         query.answer(text="Nice Try, Get Lost🥱.\n\nOnly Owner can use this.", show_alert=True)
         
-def stats(update, context):
+def pop_up_stats(update, context):
     query = update.callback_query
-    currentTime = get_readable_time(time() - botStartTime)
-    total, used, free, disk= disk_usage('/')
+    stats = bot_sys_stats()
+    query.answer(text=stats, show_alert=True)
+
+def bot_sys_stats():
+    currentTime = get_readable_time(time.time() - botStartTime)
+    cpu = psutil.cpu_percent()
+    mem = psutil.virtual_memory().percent
+    disk = psutil.disk_usage("/").percent
+    total, used, free = shutil.disk_usage('.')
     total = get_readable_file_size(total)
     used = get_readable_file_size(used)
     free = get_readable_file_size(free)
-    sent = get_readable_file_size(net_io_counters().bytes_sent)
-    recv = get_readable_file_size(net_io_counters().bytes_recv)
-    cpuUsage = cpu_percent(interval=0.5)
-    memory = virtual_memory()
-    mem_p = memory.percent
-    query.answer(text=f"BoT Uptime: {currentTime}\n\nTotal Disk Space: {total}\nUsed: {used} | Free: {free}\n\nUpload: {sent}\nDownload: {recv}\n\nCPU: {cpuUsage}%\nRAM: {mem_p}%\nDISK: {disk}%\n\n#BaashaXclouD", show_alert=True)
-    
+    recv = get_readable_file_size(psutil.net_io_counters().bytes_recv)
+    sent = get_readable_file_size(psutil.net_io_counters().bytes_sent)
+    stats = f"""
+BOT UPTIME 🕐 : {currentTime}
+
+CPU : {progress_bar(cpu)} {cpu}%
+RAM : {progress_bar(mem)} {mem}%
+DISK : {progress_bar(disk)} {disk}%
+
+TOTAL : {total}
+
+USED : {used} || FREE : {free}
+SENT : {sent} || RECV : {recv}
+
+#BaashaXclouD
+"""
+    return stats
+
 def turn(data):
     try:
         with download_dict_lock:
