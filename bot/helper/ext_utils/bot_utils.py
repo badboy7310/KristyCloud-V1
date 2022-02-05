@@ -113,10 +113,17 @@ def get_progress_bar_string(status):
 
 def get_readable_message():
     with download_dict_lock:
-        msg = ""
         dlspeed_bytes = 0
         uldl_bytes = 0
         START = 0
+        num_active = 0
+        num_waiting = 0
+        num_upload = 0
+        for stats in list(download_dict.values()):
+            if stats.status() == MirrorStatus.STATUS_DOWNLOADING:
+               num_active += 1
+            if stats.status() == MirrorStatus.STATUS_UPLOADING:
+               num_upload += 1
         if STATUS_LIMIT is not None:
             tasks = len(download_dict)
             global pages
@@ -125,9 +132,10 @@ def get_readable_message():
                 globals()['COUNT'] -= STATUS_LIMIT
                 globals()['PAGE_NO'] -= 1
             START = COUNT
+        msg = f"<b>DL: {num_active} || UL: {num_upload}</b>\n\n<b>▬▬▬ @BaashaXclouD ▬▬▬</b>"
         for index, download in enumerate(list(download_dict.values())[START:], start=1):
             reply_to = download.message.reply_to_message
-            msg += f"<b>▬▬▬ @BaashaXclouD ▬▬▬</b>\n\n𝗙𝗶𝗹𝗲𝗻𝗮𝗺𝗲: <code>{download.name()}</code>"
+            msg += f"\n\n𝗙𝗶𝗹𝗲𝗻𝗮𝗺𝗲: <code>{download.name()}</code>"
             msg += f"\n𝗦𝘁𝗮𝘁𝘂𝘀: <i>{download.status()}</i>"
             if download.status() not in [
                 MirrorStatus.STATUS_ARCHIVING,
