@@ -417,6 +417,12 @@ try:
 except KeyError:
     PHPSESSID = None
     CRYPT = None
+
+try:
+    BOT_PM = getConfig('BOT_PM')
+    BOT_PM = BOT_PM.lower() == 'true'
+except KeyError:
+    BOT_PM = False
     
 try:
     GD_INFO = getConfig('GD_INFO')
