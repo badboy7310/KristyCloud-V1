@@ -13,7 +13,7 @@ from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot import Interval, INDEX_URL, BUTTON_FOUR_NAME, BUTTON_FOUR_URL, BUTTON_FIVE_NAME, BUTTON_FIVE_URL, \
                 BUTTON_SIX_NAME, BUTTON_SIX_URL, BLOCK_MEGA_FOLDER, BLOCK_MEGA_LINKS, VIEW_LINK, aria2, QB_SEED, \
-                dispatcher, DOWNLOAD_DIR, download_dict, download_dict_lock, TG_SPLIT_SIZE, LOGGER
+                dispatcher, DOWNLOAD_DIR, download_dict, download_dict_lock, TG_SPLIT_SIZE, LOGGER, BOT_PM
 from bot.helper.ext_utils.bot_utils import get_readable_file_size, is_url, is_magnet, is_gdtot_link, is_mega_link, is_gdrive_link, get_content_type, get_mega_link_type
 from bot.helper.ext_utils.fs_utils import get_base_name, get_path_size, split as fssplit, clean_download
 from bot.helper.ext_utils.shortenurl import short_url
@@ -309,6 +309,34 @@ class MirrorListener:
             update_all_messages()
 
 def _mirror(bot, update, isZip=False, extract=False, isQbit=False, isLeech=False, pswd=None):
+    if BOT_PM:
+      try:
+        msg1 = f'Added your Requested Link to Downloads'
+        send = bot.sendMessage(update.message.from_user.id, text=msg1, )
+        send.delete()
+      except Exception as e:
+        LOGGER.warning(e)
+        bot_d = bot.get_me()
+        b_uname = bot_d.username
+        uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
+        botstart = f"http://t.me/{b_uname}"
+        channel = f"http://t.me/BaashaXclouD"
+        keyboard = [
+              [InlineKeyboardButton("Start Me", url=f"{botstart}")],
+              [InlineKeyboardButton("Updates Channel", url=channel)]]
+        message = sendMarkup(f"Hey Bro 👋 {uname},\n\n<b>I Found That You Haven't Started Me In PM Yet 😶</b>\n\nFrom Now on i Will links in PM Only 😇", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))     
+        return
+    try:
+        user = bot.get_chat_member("-1001762089232", update.message.from_user.id)
+        LOGGER.error(user.status)
+        if user.status not in ('member','creator','administrator'):
+            buttons = ButtonMaker()
+            buttons.buildbutton("Click Here To Join Updates Channel", "https://t.me/BaashaXclouD")
+            reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
+            sendMarkup(f"<b>⚠️You Have Not Joined My Updates Channel</b>\n\n<b>Join Immediately to use the Bot.</b>", bot, update, reply_markup)
+            return
+    except:
+        pass
     mesg = update.message.text.split('\n')
     message_args = mesg[0].split(' ', maxsplit=1)
     name_args = mesg[0].split('|', maxsplit=1)
