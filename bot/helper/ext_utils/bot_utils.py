@@ -250,7 +250,7 @@ def close(update, context):
     else:  
         query.answer(text="Nice Try, Get Lost🥱.\n\nOnly Owner can use this.", show_alert=True)
         
-def pop_up_stats(update, context):
+def stats(update, context):
     query = update.callback_query
     stats = bot_sys_stats()
     query.answer(text=stats, show_alert=True)
