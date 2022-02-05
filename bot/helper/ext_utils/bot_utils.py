@@ -217,17 +217,6 @@ def get_readable_message():
             button = InlineKeyboardMarkup(buttons.build_menu(3))
             return msg + bmsg, button
         return msg + bmsg, sbutton
-
-def update_all_messages():
-    msg, buttons = get_readable_message()
-    with status_reply_dict_lock:
-        for chat_id in list(status_reply_dict.keys()):
-            if status_reply_dict[chat_id] and msg != status_reply_dict[chat_id].text:
-                if buttons == "":
-                    editMessage(msg, status_reply_dict[chat_id])
-                else:
-                    editMessage(msg, status_reply_dict[chat_id], buttons)
-                status_reply_dict[chat_id].text = msg
                 
 ONE, TWO, THREE = range(3)
                 
@@ -236,7 +225,6 @@ def refresh(update, context):
     query.answer()
     query.edit_message_text(text="𝗥𝗲𝗳𝗿𝗲𝘀𝗵𝗶𝗻𝗴...👻")
     sleep(1)
-    update_all_messages()
 
 def close(update, context):  
     chat_id  = update.effective_chat.id
@@ -256,18 +244,19 @@ def stats(update, context):
     query.answer(text=stats, show_alert=True)
 
 def bot_sys_stats():
-    currentTime = get_readable_time(time.time() - botStartTime)
-    cpu = psutil.cpu_percent()
-    mem = psutil.virtual_memory().percent
+    currentTime = get_readable_time(time() - botStartTime)
+    cpu = cpu_percent(interval=0.5)
+    memory = virtual_memory()
+    mem = memory.percent
     disk = psutil.disk_usage("/").percent
-    total, used, free = shutil.disk_usage('.')
+    total, used, free, disk= disk_usage('/')
     total = get_readable_file_size(total)
     used = get_readable_file_size(used)
     free = get_readable_file_size(free)
-    recv = get_readable_file_size(psutil.net_io_counters().bytes_recv)
-    sent = get_readable_file_size(psutil.net_io_counters().bytes_sent)
+    recv = get_readable_file_size(net_io_counters().bytes_recv)
+    sent = get_readable_file_size(net_io_counters().bytes_sent)
     stats = f"""
-BOT UPTIME 🕐 : {currentTime}
+BOT UPTIME : {currentTime}
 
 CPU : {progress_bar(cpu)} {cpu}%
 RAM : {progress_bar(mem)} {mem}%
