@@ -321,17 +321,18 @@ def _mirror(bot, update, isZip=False, extract=False, isQbit=False, isLeech=False
         uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
         botstart = f"http://t.me/{b_uname}"
         channel = f"http://t.me/BaashaXclouD"
-        keyboard = [
-              [InlineKeyboardButton("Start Me", url=f"{botstart}")],
-              [InlineKeyboardButton("Updates Channel", url=channel)]]
-        message = sendMarkup(f"Hey Bro 👋 {uname},\n\n<b>I Found That You Haven't Started Me In PM Yet 😶</b>\n\nFrom Now on i Will links in PM Only 😇", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))     
+        buttons = ButtonMaker()
+        buttons.buildbutton("Start Me", url=f"{botstart}")
+        buttons.buildbutton("Updates Channel", url=f"{channel}")
+        reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
+        message = sendMarkup(f"Hey Bro {uname}👋,\n\n<b>I Found That You Haven't Started Me In PM Yet 😶</b>\n\nFrom Now on i Will links in PM Only 😇", bot, update, reply_markup=reply_markup)     
         return
     try:
         user = bot.get_chat_member("-1001762089232", update.message.from_user.id)
         LOGGER.error(user.status)
         if user.status not in ('member','creator','administrator'):
             buttons = ButtonMaker()
-            buttons.buildbutton("Click Here To Join Updates Channel", "https://t.me/BaashaXclouD")
+            buttons.buildbutton("Join Updates Channel", "https://t.me/BaashaXclouD")
             reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
             sendMarkup(f"<b>⚠️You Have Not Joined My Updates Channel</b>\n\n<b>Join Immediately to use the Bot.</b>", bot, update, reply_markup)
             return
