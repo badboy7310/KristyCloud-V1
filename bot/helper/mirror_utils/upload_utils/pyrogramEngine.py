@@ -6,7 +6,7 @@ from pyrogram.errors import FloodWait, RPCError
 from PIL import Image
 from threading import RLock
 
-from bot import app, DOWNLOAD_DIR, AS_DOCUMENT, AS_DOC_USERS, AS_MEDIA_USERS, CUSTOM_FILENAME, LOG_LEECH, bot
+from bot import app, DOWNLOAD_DIR, AS_DOCUMENT, AS_DOC_USERS, AS_MEDIA_USERS, CUSTOM_FILENAME, LOG_LEECH, bot, BOT_PM
 from bot.helper.ext_utils.fs_utils import take_ss, get_media_info, get_video_resolution, get_path_size
 from bot.helper.telegram_helper.message_utils import deleteMessage
 
@@ -97,7 +97,7 @@ class TgUploader:
                         new_path = ospath.join(dirpath, file_)
                         osrename(up_path, new_path)
                         up_path = new_path
-                    self.__sent_msg = self.__sent_msg.send_video(video=up_path,
+                    self.__sent_msg = self.__sent_msg.reply_video(video=up_path,
                                                               quote=True,
                                                               caption=cap_mono,
                                                               parse_mode="html",
@@ -111,7 +111,6 @@ class TgUploader:
                     try:
                         app.send_video(LOG_LEECH, video=self.__sent_msg.video.file_id, caption=cap_mono + "\n\n#BaashaXclouD")
                         app.send_video(self.__listener.message.from_user.id, video=self.__sent_msg.video.file_id, caption=cap_mono)
-                        deleteMessage(bot, self.__sent_msg)
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
                 elif file_.upper().endswith(AUDIO_SUFFIXES):
@@ -141,6 +140,7 @@ class TgUploader:
                     try:
                         app.send_photo(LOG_LEECH, photo=self.__sent_msg.photo.file_id, caption=cap_mono + "\n\n#BaashaXclouD")
                         app.send_photo(self.__listener.message.from_user.id, photo=self.__sent_msg.photo.file_id, caption=cap_mono)
+                        deleteMessage(bot, self.__sent_msg)
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
                 else:
@@ -164,6 +164,9 @@ class TgUploader:
                     app.send_document(self.__listener.message.from_user.id, document=self.__sent_msg.document.file_id, caption=cap_mono)
                 except Exception as err:
                     LOGGER.error(f"Failed to log to channel:\n{err}")
+        if BOT_PM:
+            try:
+                deleteMessage(bot, self.__sent_msg)
         except FloodWait as f:
             LOGGER.warning(str(f))
             sleep(f.x)
