@@ -58,6 +58,5 @@ class _BotCommands:
         self.RssUnSubCommand = getCommand('RSS_UNSUB', f'rssunsub{BOT_NO}')
         self.RssUnSubAllCommand = getCommand('RSS_UNSUBALL', f'rssunsuball{BOT_NO}')
         self.UsageCommand = getCommand('USAGE_BOT', f'usage{BOT_NO}')
-        self.MediaInfoCommand = getCommand('MEDIA_INFO', f'mediainfo{BOT_NO}')
 
 BotCommands = _BotCommands()
