@@ -495,7 +495,7 @@ def _mirror(bot, update, isZip=False, extract=False, isQbit=False, isLeech=False
         sendtextlog(f"<b>User: {uname}</b>\n<b>User ID:</b> <code>/warn {uid}</code>\n\n<b>Link Sended:</b>\n<code>{link}</code>\n\n#Aria2", bot, update)
         mssg = sendMessage("<b>Processing Your URI...</b>", bot, update)
         sleep(2)
-        add_aria2c_download(link, f'{DOWNLOAD_DIR}/{listener.uid}/', listener, filename)
+        add_aria2c_download(link, f'{DOWNLOAD_DIR}/{listener.uid}/', listener, name)
         if reply_to is not None:
             editMessage(f"{uname} has sent - \n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n\n<b>Filename:</b> <code>{file.file_name}</code>\n\n<b>Type:</b> <code>{file.mime_type}</code>\n<b>Size:</b> {get_readable_file_size(file.file_size)}\n\nUser ID : {uid}\n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬", mssg)
             sleep(1)         
