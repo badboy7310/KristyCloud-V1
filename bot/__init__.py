@@ -417,7 +417,15 @@ try:
 except KeyError:
     PHPSESSID = None
     CRYPT = None
-
+try:
+    APPDRIVE_EMAIL = get_config('APPDRIVE_EMAIL')
+    APPDRIVE_PASS = get_config('APPDRIVE_PASS')
+    if len(APPDRIVE_EMAIL) == 0 or len(APPDRIVE_PASS) == 0:
+        raise KeyError
+except KeyError:
+    APPDRIVE_EMAIL = None
+    APPDRIVE_PASS = None
+    
 try:
     BOT_PM = getConfig('BOT_PM')
     BOT_PM = BOT_PM.lower() == 'true'
