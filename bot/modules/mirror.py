@@ -33,7 +33,7 @@ from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
 from bot.helper.mirror_utils.upload_utils.pyrogramEngine import TgUploader
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.filters import CustomFilters
-from bot.helper.telegram_helper.message_utils import sendMessage, sendMarkup, delete_all_messages, update_all_messages, sendLog, sendPrivate, sendtextlog
+from bot.helper.telegram_helper.message_utils import sendMessage, sendMarkup, delete_all_messages, update_all_messages, sendLog, sendPrivate, sendtextlog, editMessage
 from bot.helper.telegram_helper.button_build import ButtonMaker
 
 
@@ -493,7 +493,27 @@ def _mirror(bot, update, isZip=False, extract=False, isQbit=False, isLeech=False
     else:
         bot_start = f"http://t.me/{b_uname}?start=start"
         sendtextlog(f"<b>User: {uname}</b>\n<b>User ID:</b> <code>/warn {uid}</code>\n\n<b>Link Sended:</b>\n<code>{link}</code>\n\n#Aria2", bot, update)
-        Thread(target=add_aria2c_download, args=(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener, name)).start()
+        mssg = sendMessage("<b>Processing Your URI...</b>", bot, update)
+        sleep(2)
+        add_aria2c_download(link, f'{DOWNLOAD_DIR}/{listener.uid}/', listener, filename)
+        if reply_to is not None:
+            editMessage(f"{uname} has sent - \n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n\n<b>Filename:</b> <code>{file.file_name}</code>\n\n<b>Type:</b> <code>{file.mime_type}</code>\n<b>Size:</b> {get_readable_file_size(file.file_size)}\n\nUser ID : {uid}\n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬", mssg)
+            sleep(1)         
+        else:
+            editMessage(f"{uname} has sent - \n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n\n<code>{link}</code>\n\nUser ID : {uid}\n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬", mssg)
+            sleep(1)
+        if reply_to is not None:
+            sendMessage(f"<b>Hei {uname}</b>\n\n<b>Your Requested Torrent File Has Been Added To The Status</b>\n\n<b>Use /{BotCommands.StatusCommand} To Check Your Progress</b>\n", bot, update)
+        elif link.startswith("magnet"):
+            sendMessage(f"<b>Hei {uname}</b>\n\n<b>Your Requested Magnet Link Has Been Added To The Status</b>\n\n<b>Use /{BotCommands.StatusCommand} To Check Your Progress</b>\n", bot, update)
+        elif link.endswith(".torrent"):
+            sendMessage(f"<b>Hei {uname}</b>\n\n<b>Your Requested Torrent Link Has Been Added To The Status</b>\n\n<b>Use /{BotCommands.StatusCommand} To Check Your Progress</b>\n", bot, update)
+        elif '0:/' in link or '1:/' in link or '2:/' in link or '3:/' in link or '4:/' in link or '5:/' in link or '6:/' in link or "workers.dev" in link:
+            sendMessage(f"<b>Hei {uname}</b>\n\n<b>Your Requested Index Link Has Been Added To The Status</b>\n\n<b>Use /{BotCommands.StatusCommand} To Check Your Progress</b>\n", bot, update)
+        else:
+            sendMessage(f"<b>Hei {uname}</b>\n\n<b>Your Requested DDL Has Been Added To The Status</b>\n\n<b>Use /{BotCommands.StatusCommand} To Check Your Progress</b>\n", bot, update)
+    if len(Interval) == 0:
+        Interval.append(setInterval(DOWNLOAD_STATUS_UPDATE_INTERVAL, update_all_messages))
 
 def mirror(update, context):
     _mirror(context.bot, update)
