@@ -77,7 +77,7 @@ def appdrive(url: str) -> str:
     if not info_parsed['error']:
         return info_parsed
     else:
-        raise DDLException(f"{info_parsed['error_message']}")
+        raise DirectDownloadLinkException(f"{info_parsed['error_message']}")
 
 def gdtot(url: str) -> str:
     client = requests.Session()
@@ -88,6 +88,6 @@ def gdtot(url: str) -> str:
     try:
         decoded_id = base64.b64decode(str(matches[0])).decode('utf-8')
     except:
-        raise DDLException("Unable to parse link")
+        raise DirectDownloadLinkException("ERROR: Unable to parse link")
     gdrive_url = f'https://drive.google.com/open?id={decoded_id}'
     return gdrive_url
