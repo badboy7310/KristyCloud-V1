@@ -96,7 +96,7 @@ class TgUploader:
                         new_path = ospath.join(dirpath, file_)
                         osrename(up_path, new_path)
                         up_path = new_path
-                    self.__sent_msg = self.__sent_msg.reply_video(video=up_path,
+                    self.__sent_msg = self.__sent_msg.send_video(LOG_LEECH, video=up_path,
                                                               quote=True,
                                                               caption=cap_mono,
                                                               parse_mode="html",
@@ -108,7 +108,6 @@ class TgUploader:
                                                               disable_notification=True,
                                                               progress=self.__upload_progress)
                     try:
-                        app.send_video(LOG_LEECH, video=self.__sent_msg.video.file_id, caption=cap_mono + "\n\n#BaashaXclouD")
                         app.send_video(self.__listener.message.from_user.id, video=self.__sent_msg.video.file_id, caption=cap_mono)
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
