@@ -100,7 +100,6 @@ class TgUploader:
                         up_path = new_path
                     self.__sent_msg = self.__app.send_video(chat_id=LOG_LEECH,
                                                          video=up_path,
-                                                         quote=True,
                                                          caption=cap_mono + "\n\n#BaashaXclouD",
                                                          parse_mode="html",
                                                          duration=duration,
