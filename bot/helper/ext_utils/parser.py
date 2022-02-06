@@ -7,7 +7,7 @@ from lxml import etree
 from urllib.parse import urlparse
 
 from bot import APPDRIVE_EMAIL, APPDRIVE_PASS, CRYPT
-from bot.helper.ext_utils.exceptions import DDLException
+from bot.helper.ext_utils.exceptions import DirectDownloadLinkException
 
 account = {
     'email': APPDRIVE_EMAIL, 
