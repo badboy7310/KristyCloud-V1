@@ -33,3 +33,4 @@ urllib3
 yt-dlp
 heroku3
 pytz
+html-telegraph-poster
