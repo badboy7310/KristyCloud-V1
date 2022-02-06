@@ -4,11 +4,11 @@ from os import remove as osremove, walk, path as ospath, rename as osrename
 from time import time, sleep
 from pyrogram.errors import FloodWait, RPCError
 from PIL import Image
-from threading import RLock
+from threading import RLock, Thread
 
 from bot import app, DOWNLOAD_DIR, AS_DOCUMENT, AS_DOC_USERS, AS_MEDIA_USERS, CUSTOM_FILENAME, LOG_LEECH, bot, BOT_PM
 from bot.helper.ext_utils.fs_utils import take_ss, get_media_info, get_video_resolution, get_path_size
-from bot.helper.telegram_helper.message_utils import deleteMessage
+from bot.helper.telegram_helper.message_utils import auto_delete_message
 
 LOGGER = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.ERROR)
@@ -111,6 +111,7 @@ class TgUploader:
                     try:
                         app.send_video(LOG_LEECH, video=self.__sent_msg.video.file_id, caption=cap_mono + "\n\n#BaashaXclouD")
                         app.send_video(self.__listener.message.from_user.id, video=self.__sent_msg.video.file_id, caption=cap_mono)
+                        Thread(target=auto_delete_message, args=(bot, update.message, self.__sent_msg)).start()
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
                 elif file_.upper().endswith(AUDIO_SUFFIXES):
@@ -164,9 +165,6 @@ class TgUploader:
                     app.send_document(self.__listener.message.from_user.id, document=self.__sent_msg.document.file_id, caption=cap_mono)
                 except Exception as err:
                     LOGGER.error(f"Failed to log to channel:\n{err}")
-        if BOT_PM:
-            try:
-                deleteMessage(bot, self.__sent_msg)
         except FloodWait as f:
             LOGGER.warning(str(f))
             sleep(f.x)
