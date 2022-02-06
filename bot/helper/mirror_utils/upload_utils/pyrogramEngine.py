@@ -97,7 +97,7 @@ class TgUploader:
                         new_path = ospath.join(dirpath, file_)
                         osrename(up_path, new_path)
                         up_path = new_path
-                    self.__sent_msg = self.__sent_msg.reply_video(video=up_path,
+                    self.__sent_msg = self.__sent_msg.send_video(video=up_path,
                                                               quote=True,
                                                               caption=cap_mono,
                                                               parse_mode="html",
