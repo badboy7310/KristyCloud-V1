@@ -22,6 +22,7 @@ class TgUploader:
 
     def __init__(self, name=None, listener=None):
         self.name = name
+        self.__app = app
         self.uploaded_bytes = 0
         self._last_uploaded = 0
         self.__listener = listener
@@ -97,21 +98,20 @@ class TgUploader:
                         new_path = ospath.join(dirpath, file_)
                         osrename(up_path, new_path)
                         up_path = new_path
-                    self.__sent_msg = self.__sent_msg.reply_video(video=up_path,
-                                                              quote=True,
-                                                              caption=cap_mono,
-                                                              parse_mode="html",
-                                                              duration=duration,
-                                                              width=width,
-                                                              height=height,
-                                                              thumb=thumb,
-                                                              supports_streaming=True,
-                                                              disable_notification=True,
-                                                              progress=self.__upload_progress)
+                    self.__sent_msg = self.__app.send_video(LOG_LEECH,
+                                                         video=up_path,
+                                                         quote=True,
+                                                         caption=cap_mono + "\n\n#BaashaXclouD",
+                                                         parse_mode="html",
+                                                         duration=duration,
+                                                         width=width,
+                                                         height=height,
+                                                         thumb=thumb,
+                                                         supports_streaming=True,
+                                                         disable_notification=True,
+                                                         progress=self.__upload_progress)
                     try:
-                        app.send_video(LOG_LEECH, video=self.__sent_msg.video.file_id, caption=cap_mono + "\n\n#BaashaXclouD")
                         app.send_video(self.__listener.message.from_user.id, video=self.__sent_msg.video.file_id, caption=cap_mono)
-                        Thread(target=auto_delete_message, args=(bot, update.message, self.__sent_msg)).start()
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
                 elif file_.upper().endswith(AUDIO_SUFFIXES):
