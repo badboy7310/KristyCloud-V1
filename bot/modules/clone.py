@@ -9,13 +9,40 @@ from bot.helper.telegram_helper.message_utils import sendMessage, sendMarkup, de
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.mirror_utils.status_utils.clone_status import CloneStatus
-from bot import dispatcher, LOGGER, CLONE_LIMIT, STOP_DUPLICATE, download_dict, download_dict_lock, Interval
+from bot import dispatcher, LOGGER, CLONE_LIMIT, STOP_DUPLICATE, download_dict, download_dict_lock, Interval, BOT_PM
 from bot.helper.ext_utils.bot_utils import get_readable_file_size, is_gdrive_link, is_gdtot_link, new_thread
 from bot.helper.mirror_utils.download_utils.direct_link_generator import gdtot
 from bot.helper.ext_utils.exceptions import DirectDownloadLinkException
 
 @new_thread
 def cloneNode(update, context):
+    if BOT_PM:
+      try:
+        msg1 = f'Added your Requested Link to Downloads'
+        send = bot.sendMessage(update.message.from_user.id, text=msg1, )
+        send.delete()
+      except Exception as e:
+        LOGGER.warning(e)
+        bot_d = bot.get_me()
+        b_uname = bot_d.username
+        uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
+        buttons = ButtonMaker()
+        buttons.buildbutton("Start Me", f"http://t.me/{b_uname}")
+        buttons.buildbutton("Updates Channel", "http://t.me/BaashaXclouD")
+        reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
+        message = sendMarkup(f"Hey Bro {uname}👋,\n\n<b>I Found That You Haven't Started Me In PM Yet 😶</b>\n\nFrom Now on i Will links in PM Only 😇", bot, update, reply_markup=reply_markup)     
+        return
+    try:
+        user = bot.get_chat_member("-1001762089232", update.message.from_user.id)
+        LOGGER.error(user.status)
+        if user.status not in ('member','creator','administrator'):
+            buttons = ButtonMaker()
+            buttons.buildbutton("Join Updates Channel", "https://t.me/BaashaXclouD")
+            reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
+            sendMarkup(f"<b>⚠️You Have Not Joined My Updates Channel</b>\n\n<b>Join Immediately to use the Bot.</b>", bot, update, reply_markup)
+            return
+    except:
+        pass
     args = update.message.text.split(" ", maxsplit=1)
     reply_to = update.message.reply_to_message
     uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
