@@ -319,11 +319,9 @@ def _mirror(bot, update, isZip=False, extract=False, isQbit=False, isLeech=False
         bot_d = bot.get_me()
         b_uname = bot_d.username
         uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
-        botstart = f"http://t.me/{b_uname}"
-        channel = f"http://t.me/BaashaXclouD"
         buttons = ButtonMaker()
-        buttons.buildbutton("Start Me", url=f"{botstart}")
-        buttons.buildbutton("Updates Channel", url=f"{channel}")
+        buttons.buildbutton("Start Me", f"http://t.me/{b_uname}")
+        buttons.buildbutton("Updates Channel", "http://t.me/BaashaXclouD")
         reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
         message = sendMarkup(f"Hey Bro {uname}👋,\n\n<b>I Found That You Haven't Started Me In PM Yet 😶</b>\n\nFrom Now on i Will links in PM Only 😇", bot, update, reply_markup=reply_markup)     
         return
