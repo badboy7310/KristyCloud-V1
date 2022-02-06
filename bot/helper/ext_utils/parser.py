@@ -81,7 +81,7 @@ def appdrive(url: str) -> str:
 
 def gdtot(url: str) -> str:
     client = requests.Session()
-    client.cookies.update({'crypt': GDTOT_CRYPT})
+    client.cookies.update({'crypt': CRYPT})
     res = client.get(url)
     res = client.get(f"https://new.gdtot.top/dld?id={url.split('/')[-1]}")
     matches = re.findall(r'gd=(.*?)&', res.text)
