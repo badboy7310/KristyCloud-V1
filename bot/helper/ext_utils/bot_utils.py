@@ -11,6 +11,7 @@ from telegram.ext import CallbackQueryHandler
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot import download_dict, download_dict_lock, STATUS_LIMIT, botStartTime, LOGGER, status_reply_dict, status_reply_dict_lock, dispatcher, bot, OWNER_ID
 from bot.helper.telegram_helper.button_build import ButtonMaker
+from bot.helper.telegram_helper.message_utils import update_all_messages
 
 MAGNET_REGEX = r"magnet:\?xt=urn:btih:[a-zA-Z0-9]*"
 
@@ -140,13 +141,15 @@ def get_readable_message():
         uldl_bytes = 0
         START = 0
         num_active = 0
-        num_waiting = 0
+        num_seeding = 0
         num_upload = 0
         for stats in list(download_dict.values()):
             if stats.status() == MirrorStatus.STATUS_DOWNLOADING:
                num_active += 1
             if stats.status() == MirrorStatus.STATUS_UPLOADING:
                num_upload += 1
+            if stats.status() == MirrorStatus.STATUS_SEEDING:
+               num_seeding += 1
         if STATUS_LIMIT is not None:
             tasks = len(download_dict)
             global pages
@@ -155,7 +158,7 @@ def get_readable_message():
                 globals()['COUNT'] -= STATUS_LIMIT
                 globals()['PAGE_NO'] -= 1
             START = COUNT
-        msg = f"<b>𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱𝗶𝗻𝗴: {num_active} || 𝗨𝗽𝗹𝗼𝗮𝗱𝗶𝗻𝗴: {num_upload}</b>\n\n<b>▬▬▬ @BaashaXclouD ▬▬▬</b>\n"
+        msg = f"<b>| 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱𝗶𝗻𝗴: {num_active} || 𝗨𝗽𝗹𝗼𝗮𝗱𝗶𝗻𝗴: {num_upload} || 𝗦𝗲𝗲𝗱𝗶𝗻𝗴: {num_seeding} |</b>\n\n<b>▬▬▬ @BaashaXclouD ▬▬▬</b>\n"
         for index, download in enumerate(list(download_dict.values())[START:], start=1):
             reply_to = download.message.reply_to_message
             msg += f"\n𝗙𝗶𝗹𝗲𝗻𝗮𝗺𝗲: <code>{download.name()}</code>"
@@ -248,6 +251,9 @@ def refresh(update, context):
     query.answer()
     query.edit_message_text(text="𝗥𝗲𝗳𝗿𝗲𝘀𝗵𝗶𝗻𝗴...👻")
     sleep(1)
+    update_all_messages()
+    query.answer(text="Refreshed", show_alert=False)
+    
 
 def close(update, context):  
     chat_id  = update.effective_chat.id
@@ -259,7 +265,7 @@ def close(update, context):
         query.answer()  
         query.message.delete() 
     else:  
-        query.answer(text="Nice Try, Get Lost🥱.\n\nOnly Owner can use this.", show_alert=True)
+        query.answer(text="Nice Try, Get Lost🥱.\n\nOnly Admins can use this.", show_alert=True)
         
 def stats(update, context):
     query = update.callback_query
