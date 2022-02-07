@@ -177,27 +177,27 @@ def get_readable_message():
                     msg += f"\n𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱𝗲𝗱: {get_readable_file_size(download.processed_bytes())} of {download.size()}"
                 msg += f"\n𝗦𝗽𝗲𝗲𝗱: {download.speed()} | 𝗘𝗧𝗔: {download.eta()}"
                 if reply_to:
-                    msg += f"\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name}</a>"
+                    msg += f"\n𝗕𝘆: <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name}</a>(<code>{download.message.from_user.id}</code>)"
                 else:
-                    msg += f"\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name} ({download.message.from_user.id})</a>"
+                    msg += f"\n𝗕𝘆: <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name}</a>(<code>{download.message.from_user.id}</code>)"
                 try:
-                    msg += f"\nAria2📶 | 𝗦𝗲𝗲𝗱𝗲𝗿𝘀: {download.aria_download().num_seeders}" \
+                    msg += f"\n<i>Aria2📶</i> | 𝗦𝗲𝗲𝗱𝗲𝗿𝘀: {download.aria_download().num_seeders}" \
                            f" | 𝗣𝗲𝗲𝗿𝘀: {download.aria_download().connections}"
                 except:
                     pass
                 try: 
-                    msg += f"\nqbit🦠 | 𝗦𝗲𝗲𝗱𝗲𝗿𝘀: {download.torrent_info().num_seeds}" \
+                    msg += f"\n<i>qbit🦠</i> | 𝗦𝗲𝗲𝗱𝗲𝗿𝘀: {download.torrent_info().num_seeds}" \
                            f" | 𝗟𝗲𝗲𝗰𝗵𝗲𝗿𝘀: {download.torrent_info().num_leechs}"
                 except:
                     pass
-                msg += f"\n𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹: <code>/{BotCommands.CancelMirror} {download.gid()}</code>\n________________________________"
+                msg += f"\n𝗖𝗮𝗻𝗰𝗲𝗹: <code>/{BotCommands.CancelMirror} {download.gid()}</code>\n________________________________"
             elif download.status() == MirrorStatus.STATUS_SEEDING:
                 msg += f"\n𝗦𝗶𝘇𝗲: {download.size()}"
                 msg += f"\n𝗦𝗽𝗲𝗲𝗱: {get_readable_file_size(download.torrent_info().upspeed)}/s"
                 msg += f" | 𝗨𝗽𝗹𝗼𝗮𝗱𝗲𝗱: {get_readable_file_size(download.torrent_info().uploaded)}"
                 msg += f"\n𝗥𝗮𝘁𝗶𝗼: {round(download.torrent_info().ratio, 3)}"
                 msg += f" | 𝗧𝗶𝗺𝗲: {get_readable_time(download.torrent_info().seeding_time)}"
-                msg += f"\n𝗧𝗼 𝗖𝗮𝗻𝗰𝗲𝗹: <code>/{BotCommands.CancelMirror} {download.gid()}</code>\n________________________________"
+                msg += f"\n𝗖𝗮𝗻𝗰𝗲𝗹: <code>/{BotCommands.CancelMirror} {download.gid()}</code>\n________________________________"
             else:
                 msg += f"\n𝗦𝗶𝘇𝗲: {download.size()}"
             msg += "\n"
@@ -235,9 +235,14 @@ def get_readable_message():
             button = InlineKeyboardMarkup(buttons.build_menu(3))
             return msg + bmsg, button
         return msg + bmsg, sbutton
-
-def update_all_messages(update, context):
+                
+ONE, TWO, THREE = range(3)
+                
+def refresh(update, context):
     query = update.callback_query
+    user_id = update.callback_query.from_user.id
+    query.edit_message_text(text="𝗥𝗲𝗳𝗿𝗲𝘀𝗵𝗶𝗻𝗴...👻")
+    sleep(1)
     msg, buttons = get_readable_message()
     with status_reply_dict_lock:
         for chat_id in list(status_reply_dict.keys()):
@@ -247,19 +252,8 @@ def update_all_messages(update, context):
                 else:
                     query.edit_message_text(msg, status_reply_dict[chat_id], buttons)
                 status_reply_dict[chat_id].text = msg
-                
-ONE, TWO, THREE = range(3)
-                
-def refresh(update, context):
-    query = update.callback_query
-    user_id = update.callback_query.from_user.id
-    query.edit_message_text(text="𝗥𝗲𝗳𝗿𝗲𝘀𝗵𝗶𝗻𝗴...👻")
-    sleep(1)
-    update_all_messages()
     query.answer(text="Refreshed", show_alert=False)
     
-    
-
 def close(update, context):  
     chat_id  = update.effective_chat.id
     user_id = update.callback_query.from_user.id
