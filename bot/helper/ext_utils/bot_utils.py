@@ -243,17 +243,6 @@ def get_readable_message():
             return msg + bmsg, button
         return msg + bmsg, sbutton
 
-def update_all_messages():
-    msg, buttons = get_readable_message()
-    with status_reply_dict_lock:
-        for chat_id in list(status_reply_dict.keys()):
-            if status_reply_dict[chat_id] and msg != status_reply_dict[chat_id].text:
-                if buttons == "":
-                    editMessage(msg, status_reply_dict[chat_id])
-                else:
-                    editMessage(msg, status_reply_dict[chat_id], buttons)
-                status_reply_dict[chat_id].text = msg
-                
 ONE, TWO, THREE = range(3)
                 
 def refresh(update, context):
@@ -261,7 +250,7 @@ def refresh(update, context):
     query.answer()
     query.edit_message_text(text="𝗥𝗲𝗳𝗿𝗲𝘀𝗵𝗶𝗻𝗴...👻")
     sleep(1)
-    update_all_messages()
+    query.message()
     query.answer(text="Refreshed", show_alert=False)
     
 
