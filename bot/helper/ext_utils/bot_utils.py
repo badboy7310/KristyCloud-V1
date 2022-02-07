@@ -11,7 +11,6 @@ from telegram.ext import CallbackQueryHandler
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot import download_dict, download_dict_lock, STATUS_LIMIT, botStartTime, LOGGER, status_reply_dict, status_reply_dict_lock, dispatcher, bot, OWNER_ID
 from bot.helper.telegram_helper.button_build import ButtonMaker
-from bot.helper.telegram_helper.message_utils import update_all_messages
 
 MAGNET_REGEX = r"magnet:\?xt=urn:btih:[a-zA-Z0-9]*"
 
@@ -243,6 +242,17 @@ def get_readable_message():
             button = InlineKeyboardMarkup(buttons.build_menu(3))
             return msg + bmsg, button
         return msg + bmsg, sbutton
+
+def update_all_messages():
+    msg, buttons = get_readable_message()
+    with status_reply_dict_lock:
+        for chat_id in list(status_reply_dict.keys()):
+            if status_reply_dict[chat_id] and msg != status_reply_dict[chat_id].text:
+                if buttons == "":
+                    editMessage(msg, status_reply_dict[chat_id])
+                else:
+                    editMessage(msg, status_reply_dict[chat_id], buttons)
+                status_reply_dict[chat_id].text = msg
                 
 ONE, TWO, THREE = range(3)
                 
