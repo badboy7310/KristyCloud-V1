@@ -179,21 +179,14 @@ def get_readable_message():
                 if reply_to:
                     msg += f"\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name}</a>"
                 else:
-                    msg += f"\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name}</a>"
-                # if hasattr(download, 'is_torrent'):
+                    msg += f"\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: <a href='tg://user?id={download.message.from_user.id}'>{download.message.from_user.first_name} ({download.message.from_user.id})</a>"
                 try:
-                    msg += f"\n𝗨𝗦𝗘𝗥 𝗜𝗗: <code>/warn {download.message.from_user.id}</code>"
-                except:
-                    pass
-                try:
-                    msg += f"\n𝗘𝗻𝗴𝗶𝗻𝗲: <i>Aria2📶</i>" \
-                           f"\n𝗦𝗲𝗲𝗱𝗲𝗿𝘀: {download.aria_download().num_seeders}" \
+                    msg += f"\nAria2📶 | 𝗦𝗲𝗲𝗱𝗲𝗿𝘀: {download.aria_download().num_seeders}" \
                            f" | 𝗣𝗲𝗲𝗿𝘀: {download.aria_download().connections}"
                 except:
                     pass
-                try:
-                    msg += f"\n𝗘𝗻𝗴𝗶𝗻𝗲: <i>qbit🦠</i>" \
-                           f"\n𝗦𝗲𝗲𝗱𝗲𝗿𝘀: {download.torrent_info().num_seeds}" \
+                try: 
+                    msg += f"\nqbit🦠 | 𝗦𝗲𝗲𝗱𝗲𝗿𝘀: {download.torrent_info().num_seeds}" \
                            f" | 𝗟𝗲𝗲𝗰𝗵𝗲𝗿𝘀: {download.torrent_info().num_leechs}"
                 except:
                     pass
