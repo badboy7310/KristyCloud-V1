@@ -249,7 +249,7 @@ def refresh(update, context):
     query = update.callback_query
     user_id = update.callback_query.from_user.id
     query.edit_message_text(text="𝗥𝗲𝗳𝗿𝗲𝘀𝗵𝗶𝗻𝗴...👻")
-    sleep(1)
+    sleep(0.1)
     query.answer(text="Refreshed", show_alert=False)
     
     
