@@ -219,7 +219,8 @@ def get_readable_message():
         dlspeed = get_readable_file_size(dlspeed_bytes)
         ulspeed = get_readable_file_size(uldl_bytes)
         msg += f"\n📖 𝗣𝗮𝗴𝗲𝘀: {PAGE_NO}/{pages} | 📝 𝗧𝗮𝘀𝗸𝘀: {tasks}"
-        bmsg = f"\n𝗗𝗹: {dlspeed}/s🔻 | 𝗨𝗹: {ulspeed}/s🔺"
+        msg += f"𝗕𝗢𝗧 𝗨𝗣𝗧𝗜𝗠𝗘⏰: <code>{currentTime}</code>
+        msg += f"\n𝗗𝗹: {dlspeed}/s🔻 | 𝗨𝗹: {ulspeed}/s🔺"
         buttons = ButtonMaker()
         buttons.sbutton("🔄", str(ONE))
         buttons.sbutton("❌", str(TWO))
@@ -233,8 +234,8 @@ def get_readable_message():
             buttons.sbutton("🔄", str(ONE))
             buttons.sbutton("📈", str(THREE))
             button = InlineKeyboardMarkup(buttons.build_menu(3))
-            return msg + bmsg, button
-        return msg + bmsg, sbutton
+            return msg, button
+        return msg, sbutton
                 
 ONE, TWO, THREE = range(3)
                 
