@@ -245,15 +245,6 @@ def refresh(update, context):
     user_id = update.callback_query.from_user.id
     query.edit_message_text(text="𝗥𝗲𝗳𝗿𝗲𝘀𝗵𝗶𝗻𝗴...👻")
     sleep(1)
-    msg, buttons = get_readable_message()
-    with status_reply_dict_lock:
-        for chat_id in list(status_reply_dict.keys()):
-            if status_reply_dict[chat_id] and msg != status_reply_dict[chat_id].text:
-                if buttons == "":
-                    query.edit_message_text(msg, status_reply_dict[chat_id])
-                else:
-                    query.edit_message_text(msg, status_reply_dict[chat_id], buttons)
-                status_reply_dict[chat_id].text = msg
     query.answer(text="Refreshed", show_alert=False)
     
 def close(update, context):  
@@ -285,16 +276,16 @@ def bot_sys_stats():
     recv = get_readable_file_size(net_io_counters().bytes_recv)
     sent = get_readable_file_size(net_io_counters().bytes_sent)
     stats = f"""
-BOT UPTIME : {currentTime}
+BOT UPTIME⏰: {currentTime}
 
-CPU : {progress_bar(cpu)} {cpu}%
-RAM : {progress_bar(mem)} {mem}%
-DISK : {progress_bar(disk)} {disk}%
+CPU: {progress_bar(cpu)} {cpu}%
+RAM: {progress_bar(mem)} {mem}%
+DISK: {progress_bar(disk)} {disk}%
 
-TOTAL : {total}
+TOTAL: {total}
 
-USED : {used} || FREE : {free}
-SENT : {sent} || RECV : {recv}
+USED: {used} || FREE: {free}
+SENT: {sent} || RECV: {recv}
 
 #BaashaXclouD
 """
