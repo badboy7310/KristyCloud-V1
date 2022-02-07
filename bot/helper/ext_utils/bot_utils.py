@@ -247,11 +247,11 @@ ONE, TWO, THREE = range(3)
                 
 def refresh(update, context):
     query = update.callback_query
+    user_id = update.callback_query.from_user.id
     query.answer()
     query.edit_message_text(text="𝗥𝗲𝗳𝗿𝗲𝘀𝗵𝗶𝗻𝗴...👻")
     sleep(1)
-    query.message()
-    query.answer(text="Refreshed", show_alert=False)
+    query.answer(user_id, text="Refreshed", show_alert=False)
     
 
 def close(update, context):  
