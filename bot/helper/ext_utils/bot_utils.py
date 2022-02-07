@@ -239,6 +239,7 @@ def get_readable_message():
 ONE, TWO, THREE = range(3)
                 
 def refresh(update, context):
+    chat_id  = update.effective_chat.id
     query = update.callback_query
     user_id = update.callback_query.from_user.id
     query.edit_message_text(text="𝗥𝗲𝗳𝗿𝗲𝘀𝗵𝗶𝗻𝗴...👻")
