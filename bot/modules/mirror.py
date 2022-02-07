@@ -219,6 +219,7 @@ class MirrorListener:
             else:
                 chat_id = str(self.message.chat.id)[4:]
                 msg += f'\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: {self.tag}\n\n'
+                msg += f"𝙄'𝙫𝙚 𝙎𝙚𝙣𝙙 𝙩𝙝𝙚 𝙁𝙞𝙡𝙚𝙨 𝙏𝙤 𝙔𝙤𝙪𝙧 𝙋𝙈 & 𝙇𝙤𝙜 𝘾𝙝𝙖𝙣𝙣𝙚𝙡."
                 fmsg = ''
                 for index, item in enumerate(list(files), start=1):
                     msg_id = files[item]
@@ -226,11 +227,11 @@ class MirrorListener:
                     fmsg += f"{index}. <a href='{link}'>{item}</a>\n"
                     if len(fmsg.encode('utf-8') + msg.encode('utf-8')) > 4000:
                         sleep(2)
-                        sendMessage(msg + fmsg, self.bot, self.update)
+                        sendMessage(msg, self.bot, self.update)
                         fmsg = ''
                 if fmsg != '':
                     sleep(2)
-                    sendMessage(msg + fmsg, self.bot, self.update)
+                    sendMessage(msg, self.bot, self.update)
             return
 
         with download_dict_lock:
@@ -269,14 +270,10 @@ class MirrorListener:
                 uname = f'<a href="tg://user?id={self.message.from_user.id}">{self.message.from_user.first_name}</a>'
             if uname is not None:
                 msg += f'\n\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: {uname}'
-                msg_g = f'\n\n - 𝙽𝚎𝚟𝚎𝚛 𝚂𝚑𝚊𝚛𝚎 𝙸𝚗𝚍𝚎𝚡 𝙻𝚒𝚗𝚔'
-                fwdpm = f'\n\n<b>ʏᴏᴜ ᴄᴀɴ ꜰɪɴᴅ ᴜᴘʟᴏᴀᴅ ɪɴ ʙᴏᴛ ᴘᴍ ᴏʀ ᴄʟɪᴄᴋ ʙᴜᴛᴛᴏɴ ʙᴇʟᴏᴡ ᴛᴏ ꜱᴇᴇ ᴀᴛ ʟᴏɢ ᴄʜᴀɴɴᴇʟ</b>'
+                msg_g = f"\n\n - 𝗗𝗼𝗻'𝘁 𝗦𝗵𝗮𝗿𝗲 𝘁𝗵𝗲 𝗜𝗻𝗱𝗲𝘅 𝗟𝗶𝗻𝗸"
+                fwdpm = f"\n\n𝙄'𝙫𝙚 𝙎𝙚𝙣𝙙 𝙩𝙝𝙚 𝙇𝙞𝙣𝙠𝙨 𝙏𝙤 𝙔𝙤𝙪𝙧 𝙋𝙈 & 𝙇𝙤𝙜 𝘾𝙝𝙖𝙣𝙣𝙚𝙡"
         logmsg = sendLog(msg + msg_g, self.bot, self.update, InlineKeyboardMarkup(buttons.build_menu(2)))
-        if logmsg:
-            log_m = f"\n\n𝗟𝗶𝗻𝗸 𝗨𝗽𝗹𝗼𝗮𝗱𝗲𝗱, 𝗖𝗹𝗶𝗰𝗸 𝗕𝗲𝗹𝗼𝘄 𝗕𝘂𝘁𝘁𝗼𝗻👇"
-        else:
-            pass
-        sendMarkup(msg + fwdpm, self.bot, self.update, InlineKeyboardMarkup([[InlineKeyboardButton(text="𝐂𝐋𝐈𝐂𝐊 𝐇𝐄𝐑𝐄", url=logmsg.link)]]))
+        sendMessage(msg + fwdpm, self.bot, self.update)
         sendPrivate(msg + msg_g, self.bot, self.update, InlineKeyboardMarkup(buttons.build_menu(2)))
         if self.isQbit and QB_SEED:
            return
