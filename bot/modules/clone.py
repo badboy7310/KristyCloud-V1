@@ -152,7 +152,7 @@ def cloneNode(update, context):
         else:
             sendLog(result + cc + msg_g, context.bot, update, button)
             auto = sendMessage(result + cc + fwdpm, context.bot, update)
-            Thread(target=auto_delete, args=(bot, update.message, auto)).start()
+            Thread(target=auto_delete, args=(context.bot, update.message, auto)).start()
             sendPrivate(result + cc + msg_g, context.bot, update, button)
         if is_gdtot:
             LOGGER.info(f"Deleting: {link}")
