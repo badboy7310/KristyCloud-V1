@@ -75,6 +75,7 @@ class TgUploader:
             up_path = new_path
         else:
             cap_mono = f"<code>{file_}</code>"
+            pm_cap = f"<b>{file_}</b>"
         notMedia = False
         thumb = self.__thumb
         try:
@@ -110,7 +111,7 @@ class TgUploader:
                                                          disable_notification=True,
                                                          progress=self.__upload_progress)
                     try:
-                        app.send_video(self.__listener.message.from_user.id, video=self.__sent_msg.video.file_id, caption=cap_mono)
+                        app.send_video(self.__listener.message.from_user.id, video=self.__sent_msg.video.file_id, caption=pm_cap)
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
                 elif file_.upper().endswith(AUDIO_SUFFIXES):
@@ -126,7 +127,7 @@ class TgUploader:
                                                          disable_notification=True,
                                                          progress=self.__upload_progress)
                     try:
-                        app.send_audio(self.__listener.message.from_user.id, audio=self.__sent_msg.audio.file_id, caption=cap_mono)
+                        app.send_audio(self.__listener.message.from_user.id, audio=self.__sent_msg.audio.file_id, caption=pm_cap)
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
                 elif file_.upper().endswith(IMAGE_SUFFIXES):
@@ -137,7 +138,7 @@ class TgUploader:
                                                          disable_notification=True,
                                                          progress=self.__upload_progress)
                     try:
-                        app.send_photo(self.__listener.message.from_user.id, photo=self.__sent_msg.photo.file_id, caption=cap_mono)
+                        app.send_photo(self.__listener.message.from_user.id, photo=self.__sent_msg.photo.file_id, caption=pm_cap)
                         deleteMessage(bot, self.__sent_msg)
                     except Exception as err:
                         LOGGER.error(f"Failed to log to channel:\n{err}")
@@ -158,7 +159,7 @@ class TgUploader:
                                                         disable_notification=True,
                                                         progress=self.__upload_progress)
                 try:
-                    app.send_document(self.__listener.message.from_user.id, document=self.__sent_msg.document.file_id, caption=cap_mono)
+                    app.send_document(self.__listener.message.from_user.id, document=self.__sent_msg.document.file_id, caption=pm_cap)
                 except Exception as err:
                     LOGGER.error(f"Failed to log to channel:\n{err}")
         except FloodWait as f:
