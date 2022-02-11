@@ -220,7 +220,7 @@ def _qb_listener(listener, client, gid, ext_hash, select, meta_time, path):
                     break
             elif tor_info.state == 'pausedUP' and QB_SEED:
                 auto = listener.onUploadError(f"Seeding stopped with Ratio: {round(tor_info.ratio, 3)} and Time: {get_readable_time(tor_info.seeding_time)}\n\n#BaashaXclouD")
-                Thread(target=auto_delete, args=(context.bot, update.message, auto)).start()
+                Thread(target=auto_delete, args=(listener.bot, listener.update.message, auto)).start()
                 client.torrents_delete(torrent_hashes=ext_hash, delete_files=True)
                 client.auth_log_out()
                 break
