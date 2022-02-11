@@ -36,7 +36,6 @@ def sendMarkup(text: str, bot, update: Update, reply_markup: InlineKeyboardMarku
     except Exception as e:
         LOGGER.error(str(e))
         return
-    
 def sendLog(text: str, bot, update: Update, reply_markup: InlineKeyboardMarkup):
     try:
         return bot.send_message(f"{LOG_CHANNEL}",
