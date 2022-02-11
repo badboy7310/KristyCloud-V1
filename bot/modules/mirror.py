@@ -13,7 +13,7 @@ from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot import Interval, INDEX_URL, BUTTON_FOUR_NAME, BUTTON_FOUR_URL, BUTTON_FIVE_NAME, BUTTON_FIVE_URL, \
                 BUTTON_SIX_NAME, BUTTON_SIX_URL, BLOCK_MEGA_FOLDER, BLOCK_MEGA_LINKS, VIEW_LINK, aria2, QB_SEED, \
-                dispatcher, DOWNLOAD_DIR, download_dict, download_dict_lock, TG_SPLIT_SIZE, LOGGER, BOT_PM, bot
+                dispatcher, DOWNLOAD_DIR, download_dict, download_dict_lock, TG_SPLIT_SIZE, LOGGER, BOT_PM
 from bot.helper.ext_utils.bot_utils import get_readable_file_size, is_url, is_magnet, is_gdtot_link, is_mega_link, is_gdrive_link, get_content_type, get_mega_link_type
 from bot.helper.ext_utils.fs_utils import get_base_name, get_path_size, split as fssplit, clean_download
 from bot.helper.ext_utils.shortenurl import short_url
@@ -274,7 +274,7 @@ class MirrorListener:
                 fwdpm = f"\n\n𝙄'𝙫𝙚 𝙎𝙚𝙣𝙙 𝙩𝙝𝙚 𝙇𝙞𝙣𝙠𝙨 𝙏𝙤 𝙔𝙤𝙪𝙧 𝙋𝙈 & 𝙇𝙤𝙜 𝘾𝙝𝙖𝙣𝙣𝙚𝙡"
         sendLog(msg + msg_g, self.bot, self.update, InlineKeyboardMarkup(buttons.build_menu(2)))
         auto = sendMessage(msg + fwdpm, self.bot, self.update)
-        Thread(target=auto_delete, args=(bot, update.message, auto)).start()
+        Thread(target=auto_delete, args=(self.bot, self.update.message, auto)).start()
         sendPrivate(msg + msg_g, self.bot, self.update, InlineKeyboardMarkup(buttons.build_menu(2)))
         if self.isQbit and QB_SEED:
            return
