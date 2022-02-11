@@ -220,18 +220,8 @@ class MirrorListener:
                 chat_id = str(self.message.chat.id)[4:]
                 msg += f'\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: {self.tag}\n\n'
                 msg += f"𝙄'𝙫𝙚 𝙎𝙚𝙣𝙙 𝙩𝙝𝙚 𝙁𝙞𝙡𝙚𝙨 𝙏𝙤 𝙔𝙤𝙪𝙧 𝙋𝙈 & 𝙇𝙤𝙜 𝘾𝙝𝙖𝙣𝙣𝙚𝙡."
-                fmsg = ''
-                for index, item in enumerate(list(files), start=1):
-                    msg_id = files[item]
-                    link = f"https://t.me/c/{chat_id}/{msg_id}"
-                    fmsg += f"{index}. <a href='{link}'>{item}</a>\n"
-                    if len(fmsg.encode('utf-8') + msg.encode('utf-8')) > 4000:
-                        sleep(2)
-                        sendMessage(msg, self.bot, self.update)
-                        fmsg = ''
-                if fmsg != '':
-                    sleep(2)
-                    sendMessage(msg, self.bot, self.update)
+                sendMessage(msg, self.bot, self.update)
+                Thread(target=auto_delete, args=(self.bot, self.update.message, msg)).start()
             return
 
         with download_dict_lock:
