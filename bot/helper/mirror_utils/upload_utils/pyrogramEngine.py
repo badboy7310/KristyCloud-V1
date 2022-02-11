@@ -74,8 +74,7 @@ class TgUploader:
             osrename(up_path, new_path)
             up_path = new_path
         else:
-            dur = get_media_info(up_path)[0]
-            cap_mono = f"<code>{file_}</code>\n\n Try {dur}"
+            cap_mono = f"<code>{file_}</code>"
             pm_cap = f"<b>{file_}</b>"
         notMedia = False
         thumb = self.__thumb
