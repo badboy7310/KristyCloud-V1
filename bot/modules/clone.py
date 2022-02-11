@@ -81,7 +81,7 @@ def cloneNode(update, context):
             apdict = appdrive(link)
             link = apdict.get('gdrive_link')
         deleteMessage(context.bot, msg)
-    except DDLException as e:
+    except DirectDownloadLinkException as e:
         deleteMessage(context.bot, msg)
         LOGGER.error(e)
         return sendMessage(str(e), context.bot, update)
