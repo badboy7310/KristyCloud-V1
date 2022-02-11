@@ -69,19 +69,21 @@ def cloneNode(update, context):
             msg = sendMessage(f"💤𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗶𝗻𝗴 𝗚𝗗𝗧𝗼𝗧 𝗟𝗶𝗻𝗸: <code>{link}</code>", context.bot, update)
             LOGGER.info(f"Processing: {link}")
             link = gdtot(link)
+            deleteMessage(context.bot, msg)
         is_appdrive = True if "appdrive.in" in link else False
         if is_appdrive:
             msg = sendMessage(f"💤𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗶𝗻𝗴 𝗔𝗽𝗽𝗱𝗿𝗶𝘃𝗲 𝗟𝗶𝗻𝗸: <code>{link}</code>", context.bot, update)
             LOGGER.info(f"Processing: {link}")
             apdict = appdrive(link)
             link = apdict.get('gdrive_link')
+            deleteMessage(context.bot, msg)
         is_driveapp = True if "driveapp.in" in link else False
         if is_driveapp:
             msg = sendMessage(f"💤𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗶𝗻𝗴 𝗗𝗿𝗶𝘃𝗲𝗮𝗽𝗽 𝗟𝗶𝗻𝗸: <code>{link}</code>", context.bot, update)
             LOGGER.info(f"Processing: {link}")
             apdict = appdrive(link)
             link = apdict.get('gdrive_link')
-        deleteMessage(context.bot, msg)
+            deleteMessage(context.bot, msg)
     except DirectDownloadLinkException as e:
         deleteMessage(context.bot, msg)
         LOGGER.error(e)
