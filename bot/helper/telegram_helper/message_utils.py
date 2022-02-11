@@ -6,7 +6,7 @@ from telegram.error import RetryAfter
 from pyrogram.errors import FloodWait
 
 from bot import AUTO_DELETE_MESSAGE_DURATION, LOGGER, status_reply_dict, status_reply_dict_lock, \
-                Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL, RSS_CHAT_ID, rss_session, bot, LOG_CHANNEL, LOG_CHANNEL_LINK1, LOG_CHANNEL_LINK2, LOG_CHANNEL_LOGGER
+                Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL, RSS_CHAT_ID, rss_session, bot, LOG_CHANNEL, LOG_CHANNEL_LINK1, LOG_CHANNEL_LINK2, LOG_CHANNEL_LOGGER, AUTO_DELETE
 from bot.helper.ext_utils.bot_utils import get_readable_message, setInterval
 
 
@@ -124,6 +124,16 @@ def sendLogFile(bot, update: Update):
 def auto_delete_message(bot, cmd_message: Message, bot_message: Message):
     if AUTO_DELETE_MESSAGE_DURATION != -1:
         sleep(AUTO_DELETE_MESSAGE_DURATION)
+        try:
+            # Skip if None is passed meaning we don't want to delete bot xor cmd message
+            deleteMessage(bot, cmd_message)
+            deleteMessage(bot, bot_message)
+        except AttributeError:
+            pass
+          
+def auto_delete(bot, cmd_message: Message, bot_message: Message):
+    if AUTO_DELETE != -1:
+        sleep(AUTO_DELETE)
         try:
             # Skip if None is passed meaning we don't want to delete bot xor cmd message
             deleteMessage(bot, cmd_message)
