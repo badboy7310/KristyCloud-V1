@@ -70,9 +70,9 @@ def cloneNode(update, context):
             link = gdtot(link)
         is_appdrive = is_appdrive_link(link)
         if is_appdrive:
-            apdict = appdrive(link)
             msg = sendMessage(f"<b>Processing:</b> <code>{link}</code>", context.bot, update)
             LOGGER.info(f"Processing: {link}")
+            apdict = appdrive(link)
             link = apdict.get('gdrive_link')
         deleteMessage(context.bot, msg)
     except DDLException as e:
@@ -146,11 +146,11 @@ def cloneNode(update, context):
             sendPrivate(result + cc + msg_g, context.bot, update, button)
         if is_gdtot:
             LOGGER.info(f"Deleting: {link}")
-            gd.deleteFile(link)
+            gd.deletefile(link)
         elif is_appdrive:
             if apdict.get('link_type') == 'login':
                 LOGGER.info(f"Deleting: {link}")
-                gd.deleteFile(link)
+                gd.deletefile(link)
     else:
         sendMessage('𝗦𝗲𝗻𝗱 𝗚𝗱𝗿𝗶𝘃𝗲, 𝗔𝗽𝗽𝗱𝗿𝗶𝘃𝗲 𝗼𝗿 𝗚𝗗𝗧𝗼𝗧 𝗹𝗶𝗻𝗸 𝗮𝗹𝗼𝗻𝗴 𝘄𝗶𝘁𝗵 𝗰𝗼𝗺𝗺𝗮𝗻𝗱 𝗼𝗿 𝗯𝘆 𝗿𝗲𝗽𝗹𝘆𝗶𝗻𝗴 𝘁𝗼 𝘁𝗵𝗲 𝗹𝗶𝗻𝗸 𝗯𝘆 𝗰𝗼𝗺𝗺𝗮𝗻𝗱', context.bot, update)
 
