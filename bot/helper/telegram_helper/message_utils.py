@@ -98,15 +98,6 @@ def sendPrivate(text: str, bot, update: Update, reply_markup: InlineKeyboardMark
                              text=text, disable_web_page_preview=True, reply_markup=reply_markup, allow_sending_without_reply=True, parse_mode='HTMl')
     except Exception as e:
         LOGGER.error(str(e))
-        if "Forbidden" in str(e):
-            uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
-            botstart = f"http://t.me/{b_uname}?start=start"
-            keyboard = [
-            [InlineKeyboardButton("Start Meh 🔗", url = f"{botstart}")],
-            [InlineKeyboardButton("Mirror Logs📬", url = f"{LOG_CHANNEL_LINK1}")],
-            [InlineKeyboardButton("Leech Logs📬", url = f"{LOG_CHANNEL_LINK2}")]]
-            sendMarkup(f"𝗕𝗿𝗼 {uname},\n\n<b>ɪ ғᴏᴜɴᴅ ᴛʜᴀᴛ ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ sᴛᴀʀᴛᴇᴅ ᴍᴇ ɪɴ ᴘᴍ ʏᴇᴛ.</b>\n\n𝗙𝗿𝗼𝗺 𝗡𝗼𝘄 𝗼𝗻 𝗜 𝘄𝗶𝗹𝗹 𝗚𝗶𝘃𝗲 𝗟𝗶𝗻𝗸𝘀 𝗶𝗻 𝗣𝗠 𝗮𝗻𝗱 𝗟𝗼𝗴 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 𝗢𝗻𝗹𝘆", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))
-            return
 
 def deleteMessage(bot, message: Message):
     try:
