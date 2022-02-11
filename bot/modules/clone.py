@@ -5,7 +5,7 @@ from telegram.ext import CommandHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
-from bot.helper.telegram_helper.message_utils import sendMessage, sendMarkup, deleteMessage, delete_all_messages, update_all_messages, sendStatusMessage, sendLog, sendPrivate, sendtextlog
+from bot.helper.telegram_helper.message_utils import sendMessage, sendMarkup, deleteMessage, delete_all_messages, update_all_messages, sendStatusMessage, sendLog, sendPrivate, sendtextlog, auto_delete
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.mirror_utils.status_utils.clone_status import CloneStatus
@@ -148,7 +148,8 @@ def cloneNode(update, context):
             sendMessage(men + result, context.bot, update)
         else:
             sendLog(result + cc + msg_g, context.bot, update, button)
-            sendMessage(result + cc + fwdpm, context.bot, update)
+            auto = sendMessage(result + cc + fwdpm, context.bot, update)
+            Thread(target=auto_delete, args=(context.bot, update.message, auto)).start()
             sendPrivate(result + cc + msg_g, context.bot, update, button)
         if is_gdtot:
             LOGGER.info(f"Deleting: {link}")
