@@ -274,7 +274,7 @@ class MirrorListener:
                 fwdpm = f"\n\n𝙄'𝙫𝙚 𝙎𝙚𝙣𝙙 𝙩𝙝𝙚 𝙇𝙞𝙣𝙠𝙨 𝙏𝙤 𝙔𝙤𝙪𝙧 𝙋𝙈 & 𝙇𝙤𝙜 𝘾𝙝𝙖𝙣𝙣𝙚𝙡"
         sendLog(msg + msg_g, self.bot, self.update, InlineKeyboardMarkup(buttons.build_menu(2)))
         auto = sendMessage(msg + fwdpm, self.bot, self.update)
-        Thread(target=auto_delete, args=(context.bot, update.message, auto)).start()
+        Thread(target=auto_delete, args=(bot, update.message, auto)).start()
         sendPrivate(msg + msg_g, self.bot, self.update, InlineKeyboardMarkup(buttons.build_menu(2)))
         if self.isQbit and QB_SEED:
            return
