@@ -63,14 +63,22 @@ def cloneNode(update, context):
     else:
         link = ''
     try:
+        is_driveapp = True if "driveapp.in" in link else False
+        is_appdrive = True if "appdrive.in" in link else False
         is_gdtot = is_gdtot_link(link)
         if is_gdtot:
-            msg = sendMessage(f"<b>Processing:</b> <code>{link}</code>", context.bot, update)
+            msg = sendMessage(f"💤𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗶𝗻𝗴 𝗚𝗗𝗧𝗼𝗧 𝗟𝗶𝗻𝗸: <code>{link}</code>", context.bot, update)
             LOGGER.info(f"Processing: {link}")
             link = gdtot(link)
         is_appdrive = is_appdrive_link(link)
         if is_appdrive:
-            msg = sendMessage(f"<b>Processing:</b> <code>{link}</code>", context.bot, update)
+            msg = sendMessage(f"💤𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗶𝗻𝗴 𝗔𝗽𝗽𝗱𝗿𝗶𝘃𝗲 𝗟𝗶𝗻𝗸: <code>{link}</code>", context.bot, update)
+            LOGGER.info(f"Processing: {link}")
+            apdict = appdrive(link)
+            link = apdict.get('gdrive_link')
+        is_driveapp = is_appdrive_link(link)
+        if is_driveapp:
+            msg = sendMessage(f"💤𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗶𝗻𝗴 𝗗𝗿𝗶𝘃𝗲𝗮𝗽𝗽 𝗟𝗶𝗻𝗸: <code>{link}</code>", context.bot, update)
             LOGGER.info(f"Processing: {link}")
             apdict = appdrive(link)
             link = apdict.get('gdrive_link')
