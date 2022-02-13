@@ -101,7 +101,7 @@ class TgUploader:
                         up_path = new_path
                     self.__sent_msg = self.__app.send_video(chat_id=LOG_LEECH,
                                                          video=up_path,
-                                                         caption=cap_mono + "\n\n#BaashaXclouD",
+                                                         caption=cap_mono + "\n\n#KristyCloud",
                                                          parse_mode="html",
                                                          duration=duration,
                                                          width=width,
@@ -118,7 +118,7 @@ class TgUploader:
                     duration , artist, title = get_media_info(up_path)
                     self.__sent_msg = self.__app.send_audio(chat_id=LOG_LEECH,
                                                          audio=up_path,
-                                                         caption=cap_mono + "\n\n#BaashaXclouD",
+                                                         caption=cap_mono + "\n\n#KristyCloud",
                                                          parse_mode="html",
                                                          duration=duration,
                                                          performer=artist,
@@ -133,7 +133,7 @@ class TgUploader:
                 elif file_.upper().endswith(IMAGE_SUFFIXES):
                     self.__sent_msg = self.__app.send_photo(chat_id=LOG_LEECH,
                                                          photo=up_path,
-                                                         caption=cap_mono + "\n\n#BaashaXclouD",
+                                                         caption=cap_mono + "\n\n#KristyCloud",
                                                          parse_mode="html",
                                                          disable_notification=True,
                                                          progress=self.__upload_progress)
@@ -154,7 +154,7 @@ class TgUploader:
                 self.__sent_msg = self.__app.send_document(chat_id=LOG_LEECH,
                                                         document=up_path,
                                                         thumb=thumb,
-                                                        caption=cap_mono + "\n\n#BaashaXclouD",
+                                                        caption=cap_mono + "\n\n#KristyCloud",
                                                         parse_mode="html",
                                                         disable_notification=True,
                                                         progress=self.__upload_progress)
