@@ -66,19 +66,20 @@ def stats(update, context):
 def start(update, context):
     currentTime = get_readable_time(time() - botStartTime)
     buttons = ButtonMaker()
-    buttons.buildbutton("𝗕𝗮𝗮𝘀𝗵𝗮 𝗫 𝗖𝗹𝗼𝘂𝗱", "https://t.me/BaashaXclouD")
-    reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
+    buttons.buildbutton("KristyCloud", "https://t.me/KristyCloud")
+    buttons.buildbutton("Log Channel", "https://t.me/KristyCloudDump_v1")
+    reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         start_string = f'''
-<b>X{BOT_NO} BoT is Working.\n\nStill {currentTime}\n\n#BaashaXclouD</b>
+<b>{BOT_NO} BoT is Working.\n\nStill {currentTime}</b>
 '''
         sendMessage(start_string, bot, update)
     else:
-        msg1 = f'𝗛𝗲𝘆👋,\n\n𝗧𝗵𝗮𝗻𝗸 𝗬𝗼𝘂 𝗙𝗼𝗿 𝗦𝘂𝗯𝘀𝗰𝗿𝗶𝗯𝗶𝗻𝗴 𝗺𝗲 𝗫𝟭.\n\n#BaashaXclouD'
+        msg1 = f'<b>Hey Dude 😎\n\nThank You For Subscribing Me. You Can Find Your Future Uploads Here</b>'
         update.effective_message.reply_photo(IMAGE_X, msg1, parse_mode=ParseMode.HTML, reply_markup=reply_markup)
 
 def restart(update, context):
-    restart_message = sendMessage("𝗥𝗲𝘀𝘁𝗮𝗿𝘁𝗶𝗻𝗴...", context.bot, update)
+    restart_message = sendMessage("Restarting.....", context.bot, update)
     if Interval:
         Interval[0].cancel()
     alive.kill()
@@ -174,7 +175,7 @@ help_string_telegraph = f'''<br>
 '''
 
 help = telegraph.create_page(
-        title='Baasha X Help',
+        title='KristyCloud - Help',
         content=help_string_telegraph,
     )["path"]
 
@@ -251,13 +252,13 @@ def main():
     if ospath.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
-        bot.edit_message_text("𝗥𝗲𝘀𝘁𝗮𝗿𝘁𝗲𝗱 𝘀𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹𝗹𝘆!", chat_id, msg_id)
+        bot.edit_message_text("Restarted Successfully!", chat_id, msg_id)
         osremove(".restartmsg")
     elif OWNER_ID:
         try:
             kie = datetime.now(pytz.timezone(f'{TIMEZONE}'))
-            jam = kie.strftime('\n📅 𝗗𝗮𝘁𝗲: %d/%m/%Y\n⏲️ 𝗧𝗶𝗺𝗲: %I:%M%P')
-            text = f"𝙀𝙫𝙚𝙧𝙮 𝙉𝙚𝙬 𝙀𝙣𝙙𝙨 𝙞𝙨 𝙉𝙚𝙬 𝘽𝙚𝙜𝙞𝙣𝙞𝙣𝙜.\n\n𝐗𝟏 𝐁𝐎𝐓 𝐑𝐄𝐒𝐓𝐀𝐑𝐓𝐄𝐃 ⚡️\n{jam}\n\n🗺️ 𝗧𝗶𝗺𝗲𝗭𝗼𝗻𝗲: {TIMEZONE}\n\n𝗣𝗹𝗲𝗮𝘀𝗲 𝗥𝗲-𝗗𝗼𝘄𝗻𝗼𝗮𝗱 𝘁𝗵𝗲 𝗧𝗼𝗿𝗿𝗲𝗻𝘁'𝘀"
+            jam = kie.strftime('\n<b>📅 Date: %d/%m/%Y\n⏲️ Time: %I:%M%P</b>')
+            text = f"<b>Every Ends is A New Beginning\n\nBot Restarted ⚡️\n{jam}\n\n🗺️ TimeZone: {TIMEZONE}\n\nPlease Re-Download Your Torrents</b>"
             bot.sendMessage(chat_id=OWNER_ID, text=text, parse_mode=ParseMode.HTML)
             if AUTHORIZED_CHATS:
                 for i in AUTHORIZED_CHATS:
