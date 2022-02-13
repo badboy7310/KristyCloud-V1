@@ -198,7 +198,7 @@ class MirrorListener:
                 pass
             else:
                 with download_dict_lock:
-                    try:
+                    try: 
                         clean_download(download_dict[self.uid].path())
                     except FileNotFoundError:
                         pass
@@ -209,30 +209,30 @@ class MirrorListener:
                 else:
                     update_all_messages()
             count = len(files)
-            msg = f'𝗡𝗮𝗺𝗲: <code>{link}</code>\n\n'
-            msg += f'𝗦𝗶𝘇𝗲: {get_readable_file_size(size)}\n'
-            msg += f'𝗧𝗼𝘁𝗮𝗹 𝗙𝗶𝗹𝗲𝘀: {count}'
+            msg = f'• Name: <code>{link}</code>\n\n'
+            msg += f'• Size: {get_readable_file_size(size)}\n'
+            msg += f'• Total Files: {count}'
             if typ != 0:
-                msg += f'\n𝗖𝗼𝗿𝗿𝘂𝗽𝘁𝗲𝗱 𝗙𝗶𝗹𝗲𝘀: {typ}'
+                msg += f'\n• Corrupted Files: {typ}'
             if self.message.chat.type == 'private':
                 sendMessage(msg, self.bot, self.update)
             else:
                 chat_id = str(self.message.chat.id)[4:]
-                msg += f'\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: {self.tag}\n\n'
-                msg += f"𝙄'𝙫𝙚 𝙎𝙚𝙣𝙙 𝙩𝙝𝙚 𝙁𝙞𝙡𝙚𝙨 𝙏𝙤 𝙔𝙤𝙪𝙧 𝙋𝙈 & 𝙇𝙤𝙜 𝘾𝙝𝙖𝙣𝙣𝙚𝙡."
+                msg += f'\n<b>-> Requested By : {self.tag}</b>\n\n'
+                msg += f"I've Send your files to your pm or Log Channel"
                 auto = sendMessage(msg, self.bot, self.update)
                 Thread(target=auto_delete, args=(self.bot, self.update.message, auto)).start()
             return
 
         with download_dict_lock:
-            msg = f'𝗡𝗮𝗺𝗲: <code>{download_dict[self.uid].name()}</code>\n\n𝗦𝗶𝘇𝗲: {size}'
-            msg += f'\n\n𝗧𝘆𝗽𝗲: {typ}'
+            msg = f'═══════ @KristyCloud ═══════\n\n<b> • Name</b>: <code>{download_dict[self.uid].name()}</code>\n\n<b>• Size</b>: {size}'
+            msg += f'\n\n<b>• Type</b>: {typ}'
             if ospath.isdir(f'{DOWNLOAD_DIR}/{self.uid}/{download_dict[self.uid].name()}'):
-                msg += f'\n𝗦𝘂𝗯𝗙𝗼𝗹𝗱𝗲𝗿𝘀: {folders}'
-                msg += f'\n𝗙𝗶𝗹𝗲𝘀: {files}'
+                msg += f'\n• SubFolders: {folders}'
+                msg += f'\n• Files: {files}'
             buttons = ButtonMaker()
             link = short_url(link)
-            buttons.buildbutton("☁️ 𝗗𝗿𝗶𝘃𝗲 𝗟𝗶𝗻𝗸", link)
+            buttons.buildbutton("☁️ Drive Link", link)
             LOGGER.info(f'Done Uploading {download_dict[self.uid].name()}')
             if INDEX_URL is not None:
                 url_path = requests.utils.quote(f'{download_dict[self.uid].name()}')
@@ -240,14 +240,14 @@ class MirrorListener:
                 if ospath.isdir(f'{DOWNLOAD_DIR}/{self.uid}/{download_dict[self.uid].name()}'):
                     share_url += '/'
                     share_url = short_url(share_url)
-                    buttons.buildbutton("⚡ 𝗜𝗻𝗱𝗲𝘅 𝗟𝗶𝗻𝗸", share_url)
+                    buttons.buildbutton("⚡ Index Link", share_url)
                 else:
                     share_url = short_url(share_url)
-                    buttons.buildbutton("⚡ 𝗜𝗻𝗱𝗲𝘅 𝗟𝗶𝗻𝗸", share_url)
+                    buttons.buildbutton("⚡ Index Link", share_url)
                     if VIEW_LINK:
                         share_urls = f'{INDEX_URL}/{url_path}?a=view'
                         share_urls = short_url(share_urls)
-                        buttons.buildbutton("🌐 𝗩𝗶𝗲𝘄 𝗟𝗶𝗻𝗸", share_urls)
+                        buttons.buildbutton("🌐 View Link", share_urls)
             if BUTTON_FOUR_NAME is not None and BUTTON_FOUR_URL is not None:
                 buttons.buildbutton(f"{BUTTON_FOUR_NAME}", f"{BUTTON_FOUR_URL}")
             if BUTTON_FIVE_NAME is not None and BUTTON_FIVE_URL is not None:
@@ -259,10 +259,10 @@ class MirrorListener:
             else:
                 uname = f'<a href="tg://user?id={self.message.from_user.id}">{self.message.from_user.first_name}</a>'
             if uname is not None:
-                msg += f'\n\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: {uname}'
-                msg_g = f"\n\n - 𝗗𝗼𝗻'𝘁 𝗦𝗵𝗮𝗿𝗲 𝘁𝗵𝗲 𝗜𝗻𝗱𝗲𝘅 𝗟𝗶𝗻𝗸"
-                fwdpm = f"\n\n𝙄'𝙫𝙚 𝙎𝙚𝙣𝙙 𝙩𝙝𝙚 𝙇𝙞𝙣𝙠𝙨 𝙏𝙤 𝙔𝙤𝙪𝙧 𝙋𝙈 & 𝙇𝙤𝙜 𝘾𝙝𝙖𝙣𝙣𝙚𝙡"
-        sendLog(msg + msg_g, self.bot, self.update, InlineKeyboardMarkup(buttons.build_menu(2)))
+                msg += f'\n\n<b>-> Requested By : {uname}</b>'
+                msg_g = f"\n\n - Don't Share Index Link"
+                fwdpm = f"\n\nI've Send Your Links To Your PM Or Log Channel"
+      sendLog(msg + msg_g, self.bot, self.update, InlineKeyboardMarkup(buttons.build_menu(2)))
         auto = sendMessage(msg + fwdpm, self.bot, self.update)
         Thread(target=auto_delete, args=(self.bot, self.update.message, auto)).start()
         sendPrivate(msg + msg_g, self.bot, self.update, InlineKeyboardMarkup(buttons.build_menu(2)))
@@ -309,16 +309,16 @@ def _mirror(bot, update, isZip=False, extract=False, isQbit=False, isLeech=False
         uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
         buttons = ButtonMaker()
         buttons.buildbutton("Start Me", f"http://t.me/{b_uname}")
-        buttons.buildbutton("Updates Channel", "http://t.me/BaashaXclouD")
+        buttons.buildbutton("Updates Channel", "http://t.me/KristyCloud")
         reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
         message = sendMarkup(f"Hey Bro {uname}👋,\n\n<b>I Found That You Haven't Started Me In PM Yet 😶</b>\n\nFrom Now on i Will links in PM Only 😇", bot, update, reply_markup=reply_markup)     
         return
     try:
-        user = bot.get_chat_member("-1001762089232", update.message.from_user.id)
+        user = bot.get_chat_member("-1001237102795", update.message.from_user.id)
         LOGGER.error(user.status)
         if user.status not in ('member','creator','administrator'):
             buttons = ButtonMaker()
-            buttons.buildbutton("Join Updates Channel", "https://t.me/BaashaXclouD")
+            buttons.buildbutton("Join Updates Channel", "https://t.me/KaipullaBots")
             reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
             sendMarkup(f"<b>⚠️You Have Not Joined My Updates Channel</b>\n\n<b>Join Immediately to use the Bot.</b>", bot, update, reply_markup)
             return
