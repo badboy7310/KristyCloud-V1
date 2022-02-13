@@ -185,7 +185,7 @@ class MirrorListener:
             except Exception as e:
                 LOGGER.error(str(e))
             count = len(download_dict)
-        msg = f"{self.tag}, Your download has been stopped.\n\n<b>Reason:</b> {error} #BaashaXclouD"
+        msg = f"{self.tag}, Your download has been stopped.\n\n<b>Reason:</b> {error} #KristyCloud"
         sendMessage(msg, self.bot, self.update)
         if count == 0:
             self.clean()
