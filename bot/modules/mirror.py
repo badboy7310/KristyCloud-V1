@@ -262,7 +262,7 @@ class MirrorListener:
                 msg += f'\n\n<b>-> Requested By : {uname}</b>'
                 msg_g = f"\n\n - Don't Share Index Link"
                 fwdpm = f"\n\nI've Send Your Links To Your PM Or Log Channel"
-      sendLog(msg + msg_g, self.bot, self.update, InlineKeyboardMarkup(buttons.build_menu(2)))
+        sendLog(msg + msg_g, self.bot, self.update, InlineKeyboardMarkup(buttons.build_menu(2)))
         auto = sendMessage(msg + fwdpm, self.bot, self.update)
         Thread(target=auto_delete, args=(self.bot, self.update.message, auto)).start()
         sendPrivate(msg + msg_g, self.bot, self.update, InlineKeyboardMarkup(buttons.build_menu(2)))
