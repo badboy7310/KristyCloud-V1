@@ -14,7 +14,7 @@ def list_buttons(update, context):
     try:
         key = update.message.text.split(" ", maxsplit=1)[1]
     except IndexError:
-        return sendMessage('Send a search key along with command', context.bot, update)
+        return sendMessage('Send a search key along with command \n\nExample : /search Avengers', context.bot, update)
     buttons = button_build.ButtonMaker()
     buttons.sbutton("Drive Root", f"types {user_id} root")
     buttons.sbutton("Recursive", f"types {user_id} recu")
@@ -36,7 +36,7 @@ def select_type(update, context):
         buttons = button_build.ButtonMaker()
         buttons.sbutton("Folders", f"types {user_id} folders {data[2]}")
         buttons.sbutton("Files", f"types {user_id} files {data[2]}")
-        buttons.sbutton("Both", f"types {user_id} both {data[2]}")
+        buttons.sbutton("Folders & Files", f"types {user_id} both {data[2]}")
         buttons.sbutton("Cancel", f"types {user_id} cancel")
         button = InlineKeyboardMarkup(buttons.build_menu(2))
         editMessage('Choose option to list.', msg, button)
