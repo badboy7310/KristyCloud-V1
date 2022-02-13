@@ -35,11 +35,11 @@ def cloneNode(update, context):
         message = sendMarkup(f"Hey Bro {uname}👋,\n\n<b>I Found That You Haven't Started Me In PM Yet 😶</b>\n\nFrom Now on i Will links in PM Only 😇", bot, update, reply_markup=reply_markup)     
         return
     try:
-        user = bot.get_chat_member("-1001762089232", update.message.from_user.id)
+        user = bot.get_chat_member("-1001237102795", update.message.from_user.id)
         LOGGER.error(user.status)
         if user.status not in ('member','creator','administrator'):
             buttons = ButtonMaker()
-            buttons.buildbutton("Join Updates Channel", "https://t.me/BaashaXclouD")
+            buttons.buildbutton("Join Updates Channel", "https://t.me/KaipullaBots")
             reply_markup = InlineKeyboardMarkup(buttons.build_menu(1))
             sendMarkup(f"<b>⚠️You Have Not Joined My Updates Channel</b>\n\n<b>Join Immediately to use the Bot.</b>", bot, update, reply_markup)
             return
@@ -66,20 +66,20 @@ def cloneNode(update, context):
     try:
         is_gdtot = is_gdtot_link(link)
         if is_gdtot:
-            msg = sendMessage(f"💤𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗶𝗻𝗴 𝗚𝗗𝗧𝗼𝗧 𝗟𝗶𝗻𝗸: <code>{link}</code>", context.bot, update)
+            msg = sendMessage(f"💤 Connecting To GDTOT : <code>{link}</code>", context.bot, update)
             LOGGER.info(f"Processing: {link}")
             link = gdtot(link)
             deleteMessage(context.bot, msg)
         is_appdrive = True if "appdrive.in" in link else False
         if is_appdrive:
-            msg = sendMessage(f"💤𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗶𝗻𝗴 𝗔𝗽𝗽𝗱𝗿𝗶𝘃𝗲 𝗟𝗶𝗻𝗸: <code>{link}</code>", context.bot, update)
+            msg = sendMessage(f"💤 Connecting To AppDrive : <code>{link}</code>", context.bot, update)
             LOGGER.info(f"Processing: {link}")
             apdict = appdrive(link)
             link = apdict.get('gdrive_link')
             deleteMessage(context.bot, msg)
         is_driveapp = True if "driveapp.in" in link else False
         if is_driveapp:
-            msg = sendMessage(f"💤𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗶𝗻𝗴 𝗗𝗿𝗶𝘃𝗲𝗮𝗽𝗽 𝗟𝗶𝗻𝗸: <code>{link}</code>", context.bot, update)
+            msg = sendMessage(f"💤 Connecting To Drive App : <code>{link}</code>", context.bot, update)
             LOGGER.info(f"Processing: {link}")
             apdict = appdrive(link)
             link = apdict.get('gdrive_link')
@@ -114,7 +114,7 @@ def cloneNode(update, context):
                 return sendMessage(msg2, context.bot, update)
         if files <= 10:
             sendtextlog(f"<b>User: {uname}</b>\n<b>User ID:</b> <code>/warn {uid}</code>\n\n<b>Link Sended:</b>\n<code>{link}</code>\n\n#GDrive", context.bot, update)
-            msg = sendMessage(f"♻️𝗖𝗹𝗼𝗻𝗶𝗻𝗴: <code>{link}</code>", context.bot, update)
+            msg = sendMessage(f"♻️ Cloning: <code>{link}</code>", context.bot, update)
             result, button = gd.clone(link)
             deleteMessage(context.bot, msg)
         else:
@@ -143,10 +143,10 @@ def cloneNode(update, context):
         else:
             uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
         if uname is not None:
-            cc = f'\n\n𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝗲𝗱 𝗕𝗬: {uname}'
+            cc = f'\n\n<b>-> Requested By : {uname}</b>'
             men = f'{uname}'
-            msg_g = f"\n\n - 𝗗𝗼𝗻'𝘁 𝗦𝗵𝗮𝗿𝗲 𝘁𝗵𝗲 𝗜𝗻𝗱𝗲𝘅 𝗟𝗶𝗻𝗸"
-            fwdpm = f"\n\n𝙄'𝙫𝙚 𝙎𝙚𝙣𝙙 𝙩𝙝𝙚 𝙇𝙞𝙣𝙠𝙨 𝙏𝙤 𝙔𝙤𝙪𝙧 𝙋𝙈 & 𝙇𝙤𝙜 𝘾𝙝𝙖𝙣𝙣𝙚𝙡"
+            msg_g = f"\n\n - Don't Share Index Link 🖇️"
+            fwdpm = f"\n\n<b>I've Send Your Links To Your PM & Log Channel</b>"
         if button == "cancelled" or button == "":
             sendMessage(men + result, context.bot, update)
         else:
@@ -162,7 +162,7 @@ def cloneNode(update, context):
                 LOGGER.info(f"Deleting: {link}")
                 gd.deletefile(link)
     else:
-        sendMessage('𝗦𝗲𝗻𝗱 𝗚𝗱𝗿𝗶𝘃𝗲, 𝗔𝗽𝗽𝗱𝗿𝗶𝘃𝗲 𝗼𝗿 𝗚𝗗𝗧𝗼𝗧 𝗹𝗶𝗻𝗸 𝗮𝗹𝗼𝗻𝗴 𝘄𝗶𝘁𝗵 𝗰𝗼𝗺𝗺𝗮𝗻𝗱 𝗼𝗿 𝗯𝘆 𝗿𝗲𝗽𝗹𝘆𝗶𝗻𝗴 𝘁𝗼 𝘁𝗵𝗲 𝗹𝗶𝗻𝗸 𝗯𝘆 𝗰𝗼𝗺𝗺𝗮𝗻𝗱', context.bot, update)
+        sendMessage('Send GDrive , AppDrive , GDTOT Link Along With Command Or By Replying To The Link By Command', context.bot, update)
 
 clone_handler = CommandHandler(BotCommands.CloneCommand, cloneNode, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 dispatcher.add_handler(clone_handler)
