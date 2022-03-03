@@ -175,7 +175,7 @@ class MirrorListener:
             drive.upload(up_name)
 
     def onDownloadError(self, error):
-        error = error.replace('<', ' ')
+        error = error.replace('<', ' ') 
         error = error.replace('>', ' ')
         with download_dict_lock:
             try:
@@ -209,7 +209,7 @@ class MirrorListener:
                 else:
                     update_all_messages()
             count = len(files)
-            msg = f'• Name: <code>{link}</code>\n\n'
+            msg =  f'📁 Your Requested Files!'
             msg += f'• Size: {get_readable_file_size(size)}\n'
             msg += f'• Total Files: {count}'
             if typ != 0:
