@@ -25,14 +25,14 @@ def getleechinfo(from_user):
         and AS_DOCUMENT
     ):
         ltype = "DOCUMENT"
-        buttons.sbutton("Send As Stream / Video Format", f"leechset {user_id} med")
+        buttons.sbutton("Send As Stream / Video Format 🎥", f"leechset {user_id} med")
     else:
         ltype = "MEDIA"
-        buttons.sbutton("Send As Document / File ", f"leechset {user_id} doc")
+        buttons.sbutton("Send As Document / File 🗃️", f"leechset {user_id} doc")
 
     if ospath.exists(thumbpath):
         thumbmsg = "Exists"
-        buttons.sbutton("Delete Thumbnail", f"leechset {user_id} thumb")
+        buttons.sbutton("Delete Thumbnail ❌", f"leechset {user_id} thumb")
     else:
         thumbmsg = "Not Exists"
 
@@ -41,9 +41,9 @@ def getleechinfo(from_user):
 
     button = InlineKeyboardMarkup(buttons.build_menu(1))
 
-    text = f"<b>Leech Settings for <a href='tg://user?id={user_id}'>{name}</a></b>\n"\
-           f"<b>Leech Type <u>{ltype}</u></b>\n"\
-           f"Custom Thumbnail <b>{thumbmsg}</b>"
+    text = f"<b>Hey <a href='tg://user?id={user_id}'>{name}</a></b>👋\n\n"\
+           f"<b>=> Leech Type <u>{ltype}</u></b>\n\n"\
+           f"<b>=> Custom Thumbnail {thumbmsg}</b>"
     return text, button
 
 def editLeechType(message, query):
@@ -69,7 +69,7 @@ def setLeechType(update, context):
         AS_DOC_USERS.add(user_id)
         if DB_URI is not None:
             DbManger().user_doc(user_id)
-        query.answer(text="Your File Will Deliver As Document!", show_alert=True)
+        query.answer(text="Your Uploads Will Deliver As Document / File 🗃️", show_alert=True)
         editLeechType(message, query)
     elif data[2] == "med":
         if user_id in AS_DOC_USERS:
@@ -77,7 +77,7 @@ def setLeechType(update, context):
         AS_MEDIA_USERS.add(user_id)
         if DB_URI is not None:
             DbManger().user_media(user_id)
-        query.answer(text="Your File Will Deliver As Media!", show_alert=True)
+        query.answer(text="Your Uploads Will Deliver As Stream / Video 🎥", show_alert=True)
         editLeechType(message, query)
     elif data[2] == "thumb":
         path = f"Thumbnails/{user_id}.jpg"
@@ -85,7 +85,7 @@ def setLeechType(update, context):
             osremove(path)
             if DB_URI is not None:
                 DbManger().user_rm_thumb(user_id, path)
-            query.answer(text="Thumbnail Removed!", show_alert=True)
+            query.answer(text="shit!! Thumbnail Removed ❌", show_alert=True)
             editLeechType(message, query)
         else:
             query.answer(text="Old Settings", show_alert=True)
@@ -110,10 +110,10 @@ def setThumb(update, context):
         osremove(photo_dir)
         if DB_URI is not None:
             DbManger().user_save_thumb(user_id, des_dir)
-        msg = f"Custom thumbnail saved for <a href='tg://user?id={user_id}'>{update.message.from_user.full_name}</a>."
+        msg = f"<b>🎆Custom Thumbnail Saved for <a href='tg://user?id={user_id}'>{update.message.from_user.full_name}</a></b>\n<b>This image will be used in the upload, till bot Restarts</b>."
         sendMessage(msg, context.bot, update)
     else:
-        sendMessage("Reply to a photo to save custom thumbnail.", context.bot, update)
+        sendMessage("<b> ❌ Reply to a photo to save custom thumbnail.</b>", context.bot, update)
 
 leech_set_handler = CommandHandler(BotCommands.LeechSetCommand, leechSet, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 set_thumbnail_handler = CommandHandler(BotCommands.SetThumbCommand, setThumb, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
