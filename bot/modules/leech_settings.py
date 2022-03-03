@@ -25,10 +25,10 @@ def getleechinfo(from_user):
         and AS_DOCUMENT
     ):
         ltype = "DOCUMENT"
-        buttons.sbutton("Send As Media", f"leechset {user_id} med")
+        buttons.sbutton("Send As Stream / Video Format", f"leechset {user_id} med")
     else:
         ltype = "MEDIA"
-        buttons.sbutton("Send As Document", f"leechset {user_id} doc")
+        buttons.sbutton("Send As Document / File ", f"leechset {user_id} doc")
 
     if ospath.exists(thumbpath):
         thumbmsg = "Exists"
@@ -41,8 +41,8 @@ def getleechinfo(from_user):
 
     button = InlineKeyboardMarkup(buttons.build_menu(1))
 
-    text = f"<u>Leech Settings for <a href='tg://user?id={user_id}'>{name}</a></u>\n"\
-           f"Leech Type <b>{ltype}</b>\n"\
+    text = f"<b>Leech Settings for <a href='tg://user?id={user_id}'>{name}</a></b>\n"\
+           f"<b>Leech Type <u>{ltype}</u></b>\n"\
            f"Custom Thumbnail <b>{thumbmsg}</b>"
     return text, button
 
