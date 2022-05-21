@@ -102,7 +102,6 @@ class TgUploader:
                     self.__sent_msg = self.__app.send_video(chat_id=LOG_LEECH,
                                                          video=up_path,
                                                          caption=cap_mono + "\n\n#KristyCloud",
-                                                         parse_mode="html",
                                                          duration=duration,
                                                          width=width,
                                                          height=height,
@@ -119,7 +118,6 @@ class TgUploader:
                     self.__sent_msg = self.__app.send_audio(chat_id=LOG_LEECH,
                                                          audio=up_path,
                                                          caption=cap_mono + "\n\n#KristyCloud",
-                                                         parse_mode="html",
                                                          duration=duration,
                                                          performer=artist,
                                                          title=title,
@@ -134,7 +132,6 @@ class TgUploader:
                     self.__sent_msg = self.__app.send_photo(chat_id=LOG_LEECH,
                                                          photo=up_path,
                                                          caption=cap_mono + "\n\n#KristyCloud",
-                                                         parse_mode="html",
                                                          disable_notification=True,
                                                          progress=self.__upload_progress)
                     try:
@@ -155,7 +152,6 @@ class TgUploader:
                                                         document=up_path,
                                                         thumb=thumb,
                                                         caption=cap_mono + "\n\n#KristyCloud",
-                                                        parse_mode="html",
                                                         disable_notification=True,
                                                         progress=self.__upload_progress)
                 try:
